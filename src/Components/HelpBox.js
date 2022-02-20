@@ -13,13 +13,21 @@ export default function HelpBox() {
 
       <div className="flex mb-3">
         <IoMdPaperPlane />
-        <a className="ml-3 text-sm text-cyan-600" href="https://www.google.com" target="_blank">
+        <a
+          className="ml-3 text-sm text-cyan-600"
+          href="https://www.google.com"
+          target="_blank"
+        >
           Contact Support
         </a>
       </div>
       <div className="flex mb-3">
         <FiTwitter />
-        <a className="ml-3 text-sm text-cyan-600" href="https://www.google.com" target="_blank">
+        <a
+          className="ml-3 text-sm text-cyan-600"
+          href="https://www.google.com"
+          target="_blank"
+        >
           Tweet Us
         </a>
       </div>
@@ -27,10 +35,12 @@ export default function HelpBox() {
       <p className="text-xs py-3">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit
       </p>
-      <button className="flex text-white text-sm p-2 bg-teal-600 rounded w-32 justify-around items-center">
-        <Link to="/guide">Read Guide</Link>
-        <FiArrowUpRight />
-      </button>
+      <Link to="/guide">
+        <button className="flex text-white text-xs p-2 bg-teal-600 rounded w-32 justify-around items-center">
+          Read Guide
+          <FiArrowUpRight />
+        </button>
+      </Link>
     </div>
   );
 }

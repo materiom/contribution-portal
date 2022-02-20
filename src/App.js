@@ -14,21 +14,21 @@ const App = () => (
   <BrowserRouter>
     <div className="flex h-screen bg-neutral-300 min-w-screen">
       {/* Sliding side menu */}
-      <BrowserRouter>
-        <Switch>
-          <div className="flex flex-col">
-            <SideBar />
-          </div>
-        </Switch>
-      </BrowserRouter>
+
       <Switch>
-        <Route path="/">
+        <div className="flex flex-col">
+          <SideBar />
+        </div>
+      </Switch>
+
+      <Switch>
+        <Route exact path="/">
           <Dashboard user={user} />
         </Route>
-        <Route path="/new" component={PageTwo} />
+        <Route exact path="/new" component={PageTwo} />
         <Route path="/react" component={HomePage} />
 
-        <Route path="/*" component={NotFound} />
+        <Route exact to="/*" component={NotFound} />
       </Switch>
     </div>
   </BrowserRouter>

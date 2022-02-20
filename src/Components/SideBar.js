@@ -24,15 +24,14 @@ export default function SideBar() {
       >
         <Icon customClassName={"mx-auto"} />
       </SidebarHeader>
-      <BrowserRouter>
       <Menu iconShape="square">
         <MenuItem icon={<BsPencilSquare />}>
-          <Link exact to="/new">Dashboard</Link>
+          <Link exact to="/new">New Recipe</Link>
         </MenuItem>
         <MenuItem icon={<BsSearch />}>
           <Link to="/search">Find Recipe</Link>
         </MenuItem>
-        <SubMenu title="Recipes" icon={<BsListUl />}>
+        <SubMenu title="My Recipes" icon={<BsListUl />}>
           <MenuItem>
             <Link  to="/published">
               Published
@@ -47,7 +46,6 @@ export default function SideBar() {
           <Link to="/">Exit</Link>
         </MenuItem>
       </Menu>
-      </BrowserRouter>
     </ProSidebar>
   );
 }

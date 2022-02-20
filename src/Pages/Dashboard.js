@@ -23,6 +23,7 @@ export default function Dashboard(props) {
             <ul className="p-0">
               <DashboardListItem
                 title={"Create a new recipe"}
+                linkTo="/new"
                 icon={<BsPencilSquare />}
                 iconColorClass={"bg-cyan-700"}
                 description={
@@ -39,6 +40,7 @@ export default function Dashboard(props) {
               />
               <DashboardListItem
                 title={"Read the contribution guide"}
+                linkTo="/guide"
                 icon={<BsBook />}
                 iconColorClass={"bg-red-600"}
                 description={
