@@ -7,9 +7,13 @@ import { HomePage } from "./Pages/HomePage";
 import { PageTwo } from "./Pages/PageTwo";
 import Dashboard from "./Pages/Dashboard";
 import { NotFound } from "./Pages/NotFound";
+import Warning from "./Pages/Warning";
+import EditRecipe from "./Pages/EditRecipe";
+import NewRecipe from "./Pages/NewRecipe";
 
 const user = {};
 user.name = "Liam";
+user.isNewUser = true
 const App = () => (
   <BrowserRouter>
     <div className="flex h-screen bg-neutral-300 min-w-screen">
@@ -25,7 +29,9 @@ const App = () => (
         <Route exact path="/">
           <Dashboard user={user} />
         </Route>
-        <Route exact path="/new" component={PageTwo} />
+        <Route exact path="/warning" component={Warning} />
+        <Route exact path="/new-recipe" component={NewRecipe} />
+        <Route exact path="/edit-recipe" component={EditRecipe} />
         <Route path="/react" component={HomePage} />
 
         <Route exact to="/*" component={NotFound} />

@@ -24,9 +24,9 @@ export default function SideBar() {
       >
         <Icon customClassName={"mx-auto"} />
       </SidebarHeader>
-      <Menu iconShape="square">
+      <Menu innerSubMenuArrows="true" iconShape="round">
         <MenuItem icon={<BsPencilSquare />}>
-          <Link exact to="/new">New Recipe</Link>
+          <Link exact to="/edit-recipe">New Recipe</Link>
         </MenuItem>
         <MenuItem icon={<BsSearch />}>
           <Link to="/search">Find Recipe</Link>

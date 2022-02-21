@@ -23,7 +23,7 @@ export default function Dashboard(props) {
             <ul className="p-0">
               <DashboardListItem
                 title={"Create a new recipe"}
-                linkTo="/new"
+                linkTo="/warning"
                 icon={<BsPencilSquare />}
                 iconColorClass={"bg-cyan-700"}
                 description={

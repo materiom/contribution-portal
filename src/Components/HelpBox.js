@@ -15,7 +15,7 @@ export default function HelpBox() {
         <IoMdPaperPlane />
         <a
           className="ml-3 text-sm text-cyan-600"
-          href="https://www.google.com"
+          href="mailto:hello@materiom.org"
           target="_blank"
         >
           Contact Support
@@ -25,7 +25,7 @@ export default function HelpBox() {
         <FiTwitter />
         <a
           className="ml-3 text-sm text-cyan-600"
-          href="https://www.google.com"
+          href="https://twitter.com/materiom_"
           target="_blank"
         >
           Tweet Us

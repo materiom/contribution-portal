@@ -4,16 +4,33 @@
 
 body {
   margin: 0;
-  font-family: 'Montserrat', sans-serif!important;
+  font-family: "Montserrat", sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-
-#root, body, html {
-    min-height: 100vh;
+#root,
+body,
+html {
+  min-height: 100vh;
 }
 
 a {
-    text-decoration: none!important;
+  text-decoration: none !important;
+}
+
+#edit-sidebar > .pro-sidebar-inner {
+    @apply bg-zinc-700;
+}
+
+.custom-checkbox {
+  @apply appearance-none h-4 w-4 border border-gray-300 rounded-sm text-green-300 bg-gray-200 hover:bg-gray-500 checked:bg-green-600 checked:border-cyan-600  transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer
+}
+
+.red-button {
+    @apply flex text-white text-xs p-2 bg-MatRed rounded w-32 justify-around items-center
+}
+
+.blue-button {
+    @apply flex text-white text-xs p-2 bg-MatBlue rounded w-32 justify-around items-center
 }
