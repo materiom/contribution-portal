@@ -1,4 +1,5 @@
 module.exports = {
+  important: true,
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
@@ -10,6 +11,9 @@ module.exports = {
         MatDark: "#646464",
       },
     },
+    variants: {
+        padding: ["first"]
+    }
   },
   plugins: [require("@tailwindcss/forms")],
 };

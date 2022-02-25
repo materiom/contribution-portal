@@ -16,7 +16,7 @@ export default function Warning() {
   };
 
   return (
-    <div className="m-auto w-[500px] h-[500px] p-3 flex flex-col items-center justify-around text-center bg-slate-50">
+    <div className="m-auto w-[500px] h-[500px] p-3 rounded flex flex-col items-center justify-around text-center bg-slate-50">
       <div className="flex flex-col items-center">
         <FaRegHandPaper className="text-6xl mb-3" />
         <h6 className="text-gray-400">Materiom Contribution Portal</h6>

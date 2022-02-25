@@ -13,6 +13,7 @@ body {
 body,
 html {
   min-height: 100vh;
+  min-width: 100vw;
 }
 
 a {
@@ -32,5 +33,13 @@ a {
 }
 
 .blue-button {
-    @apply flex text-white text-xs p-2 bg-MatBlue rounded w-32 justify-around items-center
+    @apply flex text-white text-xs p-2 bg-MatBlue disabled:bg-slate-400 rounded w-32 justify-around items-center
+}
+
+.blue-tab {
+    @apply h-2 w-20 border-t-4 rounded border-MatBlue transition-all 
+}
+
+#edit-sidebar .pro-inner-item {
+    padding: 0!important
 }

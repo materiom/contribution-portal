@@ -8,8 +8,8 @@ import HelpBox from "../Components/HelpBox";
 
 export default function Dashboard(props) {
   return (
-    <div className="min-h-screen min-w-screen w-screen flex flex-col p-20">
-      <div className="flex flex-col w-screen">
+    <div className="min-h-full flex flex-col">
+      <div className="flex flex-col w-full p-20">
         <div className="max-w-[40%]">
           <h6 className="text-gray-400">Materiom Contribution Portal</h6>
           <h2 className=" text-3xl">Welcome back {props.user.name}. 👋</h2>
@@ -32,6 +32,7 @@ export default function Dashboard(props) {
               />
               <DashboardListItem
                 title={"Find an existing recipe as a template"}
+                linkTo="/search"
                 icon={<BsSearch />}
                 iconColorClass={"bg-red-400"}
                 description={
@@ -49,6 +50,7 @@ export default function Dashboard(props) {
               />
               <DashboardListItem
                 title={"View your recipes"}
+                linkTo="/your-recipes"
                 icon={<BsListUl />}
                 iconColorClass={"bg-blue-300"}
                 description={
@@ -58,6 +60,7 @@ export default function Dashboard(props) {
               <DashboardListItem
                 title={"Upload via csv"}
                 icon={<FiUpload />}
+                linkTo="/csv-upload"
                 iconColorClass={"bg-teal-700"}
                 description={
                   "Lorem ipsum tempor incididunt ut labore et aliqua."

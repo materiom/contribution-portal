@@ -12,37 +12,28 @@ import { Link } from "react-router-dom";
 import Icon from "./Icon";
 import { BsListUl, BsPencilSquare, BsSearch } from "react-icons/bs";
 import { IoMdExit } from "react-icons/io";
-import { BrowserRouter } from "react-router-dom/cjs/react-router-dom.min";
 
 export default function SideBar() {
-  const [collapsed, toggleMenuCollapse] = useState(true);
   return (
-    <ProSidebar data-testid="sidebarMain" collapsed={collapsed}>
+    <ProSidebar className="" data-testid="sidebarMain" collapsed={true}>
       <SidebarHeader
         data-testid="sidebarToggle"
-        onClick={() => toggleMenuCollapse(!collapsed)}
       >
         <Icon customClassName={"mx-auto"} />
       </SidebarHeader>
       <Menu innerSubMenuArrows="true" iconShape="round">
         <MenuItem icon={<BsPencilSquare />}>
-          <Link exact to="/edit-recipe">New Recipe</Link>
+          <Link exact to="/warning">
+            New Recipe
+          </Link>
         </MenuItem>
         <MenuItem icon={<BsSearch />}>
           <Link to="/search">Find Recipe</Link>
         </MenuItem>
-        <SubMenu title="My Recipes" icon={<BsListUl />}>
-          <MenuItem>
-            <Link  to="/published">
-              Published
-            </Link>
-          </MenuItem>
-          <MenuItem>
-            <Link to="/drafts">Drafts</Link>
-          </MenuItem>
-          <MenuItem><Link to="/templates">Templates</Link></MenuItem>
-        </SubMenu>
-        <MenuItem  icon={<IoMdExit />}>
+        <MenuItem icon={<BsListUl />}>
+          <Link to="/your-recipes">Your Recipes</Link>
+        </MenuItem>
+        <MenuItem icon={<IoMdExit />}>
           <Link to="/">Exit</Link>
         </MenuItem>
       </Menu>

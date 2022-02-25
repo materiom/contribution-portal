@@ -3,26 +3,24 @@ import "./index.css";
 
 import { BrowserRouter, Switch, Route, Router } from "react-router-dom";
 import SideBar from "./Components/SideBar";
-import { HomePage } from "./Pages/HomePage";
-import { PageTwo } from "./Pages/PageTwo";
 import Dashboard from "./Pages/Dashboard";
 import { NotFound } from "./Pages/NotFound";
 import Warning from "./Pages/Warning";
 import EditRecipe from "./Pages/EditRecipe";
 import NewRecipe from "./Pages/NewRecipe";
+import SubmissionConfirmation from "./Pages/SubmissionConfirmation";
+import YourRecipes from "./Pages/YourRecipes";
 
 const user = {};
 user.name = "Liam";
-user.isNewUser = true
+user.isNewUser = true;
 const App = () => (
   <BrowserRouter>
-    <div className="flex h-screen bg-neutral-300 min-w-screen">
+    <div className="flex h-screen bg-neutral-300 min-w-full">
       {/* Sliding side menu */}
 
       <Switch>
-        <div className="flex flex-col">
-          <SideBar />
-        </div>
+        <SideBar />
       </Switch>
 
       <Switch>
@@ -32,7 +30,11 @@ const App = () => (
         <Route exact path="/warning" component={Warning} />
         <Route exact path="/new-recipe" component={NewRecipe} />
         <Route exact path="/edit-recipe" component={EditRecipe} />
-        <Route path="/react" component={HomePage} />
+        <Route exact path="/edit-recipe/:id" component={EditRecipe} >
+            <EditRecipe/>
+        </Route>
+        <Route exact path="/your-recipes" component={YourRecipes} />
+        <Route exact path="/confirmation" component={SubmissionConfirmation} />
 
         <Route exact to="/*" component={NotFound} />
       </Switch>
