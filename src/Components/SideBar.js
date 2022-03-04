@@ -23,7 +23,7 @@ export default function SideBar() {
       </SidebarHeader>
       <Menu innerSubMenuArrows="true" iconShape="round">
         <MenuItem icon={<BsPencilSquare />}>
-          <Link exact to="/warning">
+          <Link $exact={true} to="/warning">
             New Recipe
           </Link>
         </MenuItem>

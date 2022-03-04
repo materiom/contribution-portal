@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import { FiArrowRight } from "react-icons/fi";
 import { FaRegHandPaper } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import useUpdateTitle from "../Hooks/UpdateTitle";
+import { useHistory } from "react-router-dom";
+
 export default function Warning() {
+  useUpdateTitle("Warning");
+  const history = useHistory();
   const [cb1, handleCb1Update] = useState(false);
   const [cb2, handleCb2Update] = useState(false);
   const [cb3, handleCb3Update] = useState(false);
@@ -36,7 +41,7 @@ export default function Warning() {
             id="warningCheckbox1"
             className="custom-checkbox"
           />
-          <label for="warningCheckbox1">
+          <label htmlFor="warningCheckbox1">
             Dolce et decorum est pro patria mori.
           </label>
         </div>
@@ -49,7 +54,7 @@ export default function Warning() {
             id="warningCheckbox2"
             className="custom-checkbox"
           />
-          <label className="form-check-label" for="warningCheckbox2">
+          <label className="form-check-label" htmlFor="warningCheckbox2">
             Cogito, ergo sum.
           </label>
         </div>
@@ -62,22 +67,20 @@ export default function Warning() {
             id="warningCheckbox3"
             className="custom-checkbox"
           />
-          <label for="warningCheckbox3">Utile Dulci.</label>
+          <label htmlFor="warningCheckbox3">Utile Dulci.</label>
         </div>
         <div className="flex justify-around my-5">
           <Link to="/">
-            <button className="red-button">
-              Back
-            </button>
+            <button className="red-button">Back</button>
           </Link>
-          <Link
-            to={cb1 === true && cb2 === true && cb3 === true ? "/new-recipe" : "#"}
+          <button
+            onClick={() => history.push("/new-recipe", { from: "/warning" })}
+            disabled={cb1 === false || cb2 === false || cb3 === false}
+            className="blue-button"
           >
-            <button className="blue-button">
-              Continue
-              <FiArrowRight />
-            </button>
-          </Link>
+            Continue
+            <FiArrowRight />
+          </button>
         </div>
       </div>
     </div>

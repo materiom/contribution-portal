@@ -1,12 +1,14 @@
 import React from "react";
 import { BsPencilSquare } from "react-icons/bs";
 import { FiArrowRight } from "react-icons/fi";
+import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { dummyData } from "../Data";
-
-
+import useUpdateTitle from "../Hooks/UpdateTitle";
 
 export default function NewRecipe() {
+  useUpdateTitle("New Recipe");
+  const history = useHistory();
   return (
     <div className="min-h-full flex flex-col p-20">
       <h6 className="text-gray-400">Contribute a recipe</h6>
@@ -19,9 +21,12 @@ export default function NewRecipe() {
       </div>
 
       <p className="py-5">To get started, please give your recipe a name.</p>
-      
+
       <div className="flex flex-col my-5 bg-white rounded w-[400px] p-2">
-        <label className="text-gray-400 text-xs flex justify-between" htmlFor="recipeName">
+        <label
+          className="text-gray-400 text-xs flex justify-between"
+          htmlFor="recipeName"
+        >
           <h6>🇹 RECIPE TITLE</h6>
           <h6>Required</h6>
         </label>
@@ -30,12 +35,10 @@ export default function NewRecipe() {
           label="recipeName"
           type="text"
         />
-        <Link onClick={() => dummyData.push({title: "test"})} to={`/edit-recipe/${0}`}>
-        <button className="blue-button">
-          Create
-          <FiArrowRight />
-        </button>
-        </Link>
+          <button onClick={() => history.push(`/edit-recipe/${0}`, { from: "/warning"})} className="blue-button">
+            Create
+            <FiArrowRight />
+          </button>
       </div>
     </div>
   );

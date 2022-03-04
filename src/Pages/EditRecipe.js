@@ -1,17 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import EditRecipeListItem from "../Components/EditRecipeListItem";
 import EditRecipeSideBar from "../Components/EditRecipeSideBar";
 import { Link, useParams } from "react-router-dom";
 
 import { FiArrowUpRight } from "react-icons/fi";
 import { dummyData } from "../Data";
+import useUpdateTitle from "../Hooks/UpdateTitle";
+import EditRecipeDetails from "../Components/EditRecipeDetails";
 
 export default function EditRecipe() {
+  const [showEditRecipeDetails, handleShowEditRecipeDetails] = useState(true);
+  const showDetails = () => {
+      handleShowEditRecipeDetails(!showEditRecipeDetails);
+      console.log(showEditRecipeDetails)
+    }
+  useUpdateTitle("Edit Recipe");
   const params = useParams();
   const recipe = dummyData[params.id];
   return (
     <div className="flex ">
-      <EditRecipeSideBar recipe={recipe} />
+      <EditRecipeSideBar
+        showDetails={showDetails}
+        show={showEditRecipeDetails}
+        recipe={recipe}
+      />
       <div className="flex flex-col w-[50%] min-w[500px] m-auto">
         <div className="flex flex-col mb-5">
           <h2 className="text-3xl text-center my-2 capitalize">
@@ -33,10 +45,14 @@ export default function EditRecipe() {
         <ul className="p-0 my-5">
           <EditRecipeListItem
             title={"Recipe details"}
-            linkTo={"/warning"}
+            toggle={() => handleShowEditRecipeDetails(true)}
             progress="complete"
             description={"Lorem ipsum tempor incididunt ut labore et aliqua."}
           />
+
+          <EditRecipeDetails
+        showDetails={showDetails} recipe={recipe} show={showEditRecipeDetails} />
+
           <EditRecipeListItem
             title={"Recipe details"}
             linkTo={"/warning"}
@@ -64,7 +80,7 @@ export default function EditRecipe() {
               id="warningCheckbox1"
               className="custom-checkbox"
             />
-            <label for="warningCheckbox1">
+            <label htmlFor="warningCheckbox1">
               Lorem ipsum tempor incididunt ut labore et aliqua. Lorem ipsum
               dolor sit amet, incididunt ut labore et dolore magna aliqua.
             </label>

@@ -12,8 +12,10 @@ import { FaFolder } from "react-icons/fa";
 
 export default function EditRecipeSideBar(props) {
   //   const [collapsed, toggleMenuCollapse] = useState(false);
+
   return (
     <ProSidebar
+    className=" z-10"
       id="edit-sidebar"
       data-testid="sidebarMain"
       collapsed={false}
@@ -35,7 +37,9 @@ export default function EditRecipeSideBar(props) {
           icon={<FaFolder />}
         >
           <MenuItem>
-            <Link to="/published">Title: {props.recipe.title}</Link>
+            <button onClick={() => props.showDetails()}>
+              Title: {props.recipe.title}
+            </button>
           </MenuItem>
           <MenuItem>
             <Link to="/drafts">Difficulty: {props.recipe.difficulty}/5</Link>

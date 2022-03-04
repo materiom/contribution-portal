@@ -2,10 +2,13 @@ import React from "react";
 import { BsPencilSquare, BsTrash } from "react-icons/bs";
 import { RiFileCopyLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 function RecipeTableRow(props) {
+    const history = useHistory()
   return (
     <tr className="whitespace-nowrap">
+
       <td className="px-6 py-4 max-w-[200px]">
         <div className="text-sm text-gray-900 overflow-hidden text-ellipsis">{props.data.title}</div>
       </td>
@@ -28,11 +31,10 @@ function RecipeTableRow(props) {
         {parseInt(props.data.views).toLocaleString()}
       </td>
       <td className="px-6 py-4 flex">
-        <Link to={`/edit-recipe/${props.data.title}`} className="">
-          <div className="h-8 w-8 ml-3 text-white bg-MatBlue rounded flex justify-center items-center">
+       
+          <div onClick={() => history.push(`/edit-recipe/${props.index}`, { from: "/your-recipes"})} className="h-8 w-8 ml-3 text-white bg-MatBlue rounded flex justify-center items-center">
             <BsPencilSquare />
           </div>
-        </Link>
         <Link to={`/copy-recipe/${props.data.title}`} className="">
           <div className="h-8 w-8 ml-3 text-white bg-MatOrange rounded flex justify-center items-center">
             <RiFileCopyLine />

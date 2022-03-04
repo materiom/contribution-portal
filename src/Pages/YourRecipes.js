@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BsListUl } from "react-icons/bs";
 import RecipeTable from "../Components/RecipeTable";
+import useUpdateTitle from "../Hooks/UpdateTitle";
 
 function YourRecipes() {
+  useUpdateTitle("Your Recipes");
   return (
     <div className="min-h-full flex flex-col p-20">
       <div className="flex flex-col w-full">

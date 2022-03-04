@@ -5,17 +5,17 @@ import { dummyData } from "../Data";
 function RecipeTable() {
   const [active, handleActive] = useState(true);
 
-  const recipeTableRows = dummyData.map((item) => {
+  const recipeTableRows = dummyData.map((item, index) => {
     return item.status === "draft" ? (
       ""
     ) : (
-      <RecipeTableRow key={item.title} data={item} />
+      <RecipeTableRow key={item.title} data={item} index={index} />
     );
   });
 
-  const draftTableRows = dummyData.map((item) => {
+  const draftTableRows = dummyData.map((item, index) => {
     return item.status === "draft" ? (
-      <RecipeTableRow key={item.title} data={item} />
+      <RecipeTableRow key={item.title} data={item} index={index} />
     ) : (
       ""
     );

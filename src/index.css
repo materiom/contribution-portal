@@ -24,6 +24,10 @@ a {
     @apply bg-zinc-700;
 }
 
+.pro-sidebar > .pro-sidebar-inner > .pro-sidebar-layout {
+    z-index: 3!important;
+}
+
 .custom-checkbox {
   @apply appearance-none h-4 w-4 border border-gray-300 rounded-sm text-green-300 bg-gray-200 hover:bg-gray-500 checked:bg-green-600 checked:border-cyan-600  transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer
 }
