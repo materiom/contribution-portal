@@ -1,3 +1,4 @@
+// Import dependencies
 import React from "react";
 import { IoMdPaperPlane } from "react-icons/io";
 import { FiArrowUpRight, FiTwitter } from "react-icons/fi";

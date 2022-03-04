@@ -1,10 +1,10 @@
+// Import dependencies
 import React from "react";
-import { Link } from "react-router-dom";
-
 import { FiCheck } from "react-icons/fi";
 import { RiTimeLine } from "react-icons/ri";
 
 export default function EditRecipeListItem(props) {
+  // Dynamic style based upon props
   let style =
     props.progress === "complete"
       ? "bg-green-700"
@@ -14,7 +14,10 @@ export default function EditRecipeListItem(props) {
   let icon = props.progress === "complete" ? <FiCheck /> : <RiTimeLine />;
 
   return (
-    <li onClick={() => props.toggle()} className="flex items-center bg-neutral-100 p-5 mb-3 rounded hover:bg-neutral-200 active:bg-MatOrange">
+    <li
+      onClick={() => props.toggle()}
+      className="flex items-center bg-neutral-100 p-5 mb-3 rounded hover:bg-neutral-200 active:bg-MatOrange"
+    >
       <div className={"text-white h-fit p-2 rounded " + style}>{icon}</div>
       <div className="flex flex-col justify-center pl-3">
         <h6 className="text-sm">

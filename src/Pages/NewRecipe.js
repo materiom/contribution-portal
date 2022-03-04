@@ -1,12 +1,12 @@
+// Import dependencies
 import React from "react";
 import { BsPencilSquare } from "react-icons/bs";
 import { FiArrowRight } from "react-icons/fi";
 import { useHistory } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { dummyData } from "../Data";
 import useUpdateTitle from "../Hooks/UpdateTitle";
 
 export default function NewRecipe() {
+  // Custom hook to update page title on initial load
   useUpdateTitle("New Recipe");
   const history = useHistory();
   return (
@@ -35,10 +35,15 @@ export default function NewRecipe() {
           label="recipeName"
           type="text"
         />
-          <button onClick={() => history.push(`/edit-recipe/${0}`, { from: "/warning"})} className="blue-button">
-            Create
-            <FiArrowRight />
-          </button>
+        <button
+          onClick={() =>
+            history.push(`/edit-recipe/${0}`, { from: "/warning" })
+          }
+          className="blue-button"
+        >
+          Create
+          <FiArrowRight />
+        </button>
       </div>
     </div>
   );

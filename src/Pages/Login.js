@@ -1,22 +1,25 @@
+// Import dependencies
 import React, { useContext, useEffect, useState } from "react";
 import { CordraClient } from "@cnri/cordra-client";
-import { Redirect } from "react-router-dom";
-import { userContext } from "../Hooks/UserContext";
-import { useHistory } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
+// Import custom hooks
+import userContext from "../Hooks/UserContext";
 
 export default function Login() {
+  // Used for page navigation
   const history = useHistory();
+  // Initialize state
   const [user, handleUserChange] = useState("");
   const [pass, handlePasswordChange] = useState("");
-  const [isLoggedIn, handleLoginChange] = useState(false);
 
   // Create new Cordra client && login
   const client = new CordraClient("https://localhost:8443");
   const userStatus = useContext(userContext);
 
+  // Check for user login in local storage on initial render
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
-    console.log(loggedInUser);
+    // If found, populate user object and redirect to Dashboard
     if (loggedInUser) {
       const parsedUser = JSON.parse(loggedInUser);
       userStatus.handleLogin(parsedUser);
@@ -24,6 +27,7 @@ export default function Login() {
     }
   }, []);
 
+  // Login function
   const login = async (event) => {
     event.preventDefault();
     const options = {
@@ -32,7 +36,6 @@ export default function Login() {
     };
     await client.authenticate(options).then((res) => {
       if (res.active) {
-        console.log(res);
         userStatus.handleLogin(res);
         history.push("/", { from: "/login" });
       }
@@ -41,7 +44,8 @@ export default function Login() {
 
   return (
     <div>
-      {!isLoggedIn ? (
+      {/* If user is logged in redirect to Dashboard, else show login form */}
+      {!userStatus.user.loggedIn ? (
         <form onSubmit={login}>
           <input
             type="text"

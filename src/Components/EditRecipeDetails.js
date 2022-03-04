@@ -1,8 +1,11 @@
+// Import dependencies
 import React, { useState } from "react";
 
 function EditRecipeDetails(props) {
+  // Initialize state
   const [show, setShow] = useState(false);
 
+  // Function to toggle the modal
   const handleModal = () => setShow(!props.show);
   return props.show ? (
     <div

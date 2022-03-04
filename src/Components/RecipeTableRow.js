@@ -1,3 +1,4 @@
+// Import dependencies
 import React from "react";
 import { BsPencilSquare, BsTrash } from "react-icons/bs";
 import { RiFileCopyLine } from "react-icons/ri";
@@ -5,12 +6,14 @@ import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 
 function RecipeTableRow(props) {
-    const history = useHistory()
+  // Used for navigation
+  const history = useHistory();
   return (
     <tr className="whitespace-nowrap">
-
       <td className="px-6 py-4 max-w-[200px]">
-        <div className="text-sm text-gray-900 overflow-hidden text-ellipsis">{props.data.title}</div>
+        <div className="text-sm text-gray-900 overflow-hidden text-ellipsis">
+          {props.data.title}
+        </div>
       </td>
       <td className="px-6 py-4">
         <div className="text-sm text-gray-500">{props.data.dateCreated}</div>
@@ -31,10 +34,16 @@ function RecipeTableRow(props) {
         {parseInt(props.data.views).toLocaleString()}
       </td>
       <td className="px-6 py-4 flex">
-       
-          <div onClick={() => history.push(`/edit-recipe/${props.index}`, { from: "/your-recipes"})} className="h-8 w-8 ml-3 text-white bg-MatBlue rounded flex justify-center items-center">
-            <BsPencilSquare />
-          </div>
+        <div
+          onClick={() =>
+            history.push(`/edit-recipe/${props.index}`, {
+              from: "/your-recipes",
+            })
+          }
+          className="h-8 w-8 ml-3 text-white bg-MatBlue rounded flex justify-center items-center"
+        >
+          <BsPencilSquare />
+        </div>
         <Link to={`/copy-recipe/${props.data.title}`} className="">
           <div className="h-8 w-8 ml-3 text-white bg-MatOrange rounded flex justify-center items-center">
             <RiFileCopyLine />

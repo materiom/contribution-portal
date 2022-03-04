@@ -1,10 +1,13 @@
+// Import dependencies
 import React, { useState } from "react";
 import RecipeTableRow from "./RecipeTableRow";
 import { dummyData } from "../Data";
 
 function RecipeTable() {
+  // Initialize state
   const [active, handleActive] = useState(true);
 
+  // Render recipe table with dummy data and RecipeTableRow component
   const recipeTableRows = dummyData.map((item, index) => {
     return item.status === "draft" ? (
       ""
@@ -13,6 +16,7 @@ function RecipeTable() {
     );
   });
 
+  // Render draft recipe table with dummy data and RecipeTableRow component
   const draftTableRows = dummyData.map((item, index) => {
     return item.status === "draft" ? (
       <RecipeTableRow key={item.title} data={item} index={index} />
@@ -20,6 +24,7 @@ function RecipeTable() {
       ""
     );
   });
+  
   return (
     <div className="w-fit mt-5 overflow-scroll">
       <div className="flex flex-col h-12 sticky  top-0 bg-neutral-300">
@@ -36,7 +41,9 @@ function RecipeTable() {
       <table>
         <thead className="bg-gray-200 border-2 border-gray-400  sticky top-12">
           <tr>
-            <th className="px-6 py-2 max-w-xs text-xs text-gray-500">Recipe Name</th>
+            <th className="px-6 py-2 max-w-xs text-xs text-gray-500">
+              Recipe Name
+            </th>
             <th className="px-6 py-2 text-xs text-gray-500">Date Created</th>
             <th className="px-6 py-2 text-xs text-gray-500">Status</th>
             <th className="px-6 py-2 text-xs text-gray-500">Views</th>

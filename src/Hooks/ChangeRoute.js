@@ -1,6 +1,8 @@
+// Import dependencies
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
+// Custom hook to change change route
 const useChangeRoute = (path) => {
   const history = useHistory();
   useEffect(() => {

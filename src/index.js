@@ -1,13 +1,14 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import reportWebVitals from './reportWebVitals';
-
-import App from './App';
-import './index.css';
+// Import dependencies
+import React from "react";
+import ReactDOM from "react-dom";
+import reportWebVitals from "./reportWebVitals";
+import App from "./App";
+import "./index.css";
 
 ReactDOM.render(
+  // Entry point renders the App component in the <div id="root"> ./public/index.html
   <App />,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -1,22 +1,33 @@
+// Import dependencies
 import React, { useState } from "react";
-import EditRecipeListItem from "../Components/EditRecipeListItem";
-import EditRecipeSideBar from "../Components/EditRecipeSideBar";
 import { Link, useParams } from "react-router-dom";
-
 import { FiArrowUpRight } from "react-icons/fi";
 import { dummyData } from "../Data";
+// Import custom hooks
 import useUpdateTitle from "../Hooks/UpdateTitle";
+// Custom components
+import EditRecipeListItem from "../Components/EditRecipeListItem";
+import EditRecipeSideBar from "../Components/EditRecipeSideBar";
 import EditRecipeDetails from "../Components/EditRecipeDetails";
 
 export default function EditRecipe() {
+  // Initialize state
   const [showEditRecipeDetails, handleShowEditRecipeDetails] = useState(true);
+
+  // Function to toggle the recipe details on line 27
   const showDetails = () => {
-      handleShowEditRecipeDetails(!showEditRecipeDetails);
-      console.log(showEditRecipeDetails)
-    }
+    handleShowEditRecipeDetails(!showEditRecipeDetails);
+  };
+
+  // Custom hook to update page title on initial load
   useUpdateTitle("Edit Recipe");
+
+  // Get URL parameters
   const params = useParams();
+
+  // Dummy data
   const recipe = dummyData[params.id];
+  console.log(params)
   return (
     <div className="flex ">
       <EditRecipeSideBar
@@ -27,7 +38,8 @@ export default function EditRecipe() {
       <div className="flex flex-col w-[50%] min-w[500px] m-auto">
         <div className="flex flex-col mb-5">
           <h2 className="text-3xl text-center my-2 capitalize">
-            {recipe.title}
+            {//recipe.title
+            }
           </h2>
           <div className="flex justify-around">
             <Link to="/">
@@ -37,7 +49,7 @@ export default function EditRecipe() {
               </p>
             </Link>
             <p className="text-xs text-gray-400">
-              Created: {recipe.dateCreated}
+              Created:{/*  {recipe.dateCreated} */}
             </p>
             <p className="text-xs text-gray-400">REF: MTRM0001 </p>
           </div>
@@ -51,7 +63,10 @@ export default function EditRecipe() {
           />
 
           <EditRecipeDetails
-        showDetails={showDetails} recipe={recipe} show={showEditRecipeDetails} />
+            showDetails={showDetails}
+            recipe={recipe}
+            show={showEditRecipeDetails}
+          />
 
           <EditRecipeListItem
             title={"Recipe details"}
@@ -76,7 +91,6 @@ export default function EditRecipe() {
           <div className="flex justify-start items-center m-auto text-xs text-gray-500">
             <input
               type="checkbox"
-              id="warningCheckbox1"
               id="warningCheckbox1"
               className="custom-checkbox"
             />

@@ -1,11 +1,14 @@
+// Import dependencies
 import React, { useState } from "react";
 import { FiArrowRight } from "react-icons/fi";
 import { FaRegHandPaper } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import useUpdateTitle from "../Hooks/UpdateTitle";
 import { useHistory } from "react-router-dom";
+// Import custom hooks
+import useUpdateTitle from "../Hooks/UpdateTitle";
 
 export default function Warning() {
+  // Custom hook to update page title on initial load
   useUpdateTitle("Warning");
   const history = useHistory();
   const [cb1, handleCb1Update] = useState(false);
@@ -38,7 +41,6 @@ export default function Warning() {
             checked={cb1}
             type="checkbox"
             id="warningCheckbox1"
-            id="warningCheckbox1"
             className="custom-checkbox"
           />
           <label htmlFor="warningCheckbox1">
@@ -51,7 +53,6 @@ export default function Warning() {
             checked={cb2}
             type="checkbox"
             id="warningCheckbox2"
-            id="warningCheckbox2"
             className="custom-checkbox"
           />
           <label className="form-check-label" htmlFor="warningCheckbox2">
@@ -63,7 +64,6 @@ export default function Warning() {
             onClick={() => handleCheckboxes(3)}
             checked={cb3}
             type="checkbox"
-            id="warningCheckbox3"
             id="warningCheckbox3"
             className="custom-checkbox"
           />

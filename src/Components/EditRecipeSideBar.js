@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+// Import dependencies
+import React from "react";
 import {
   ProSidebar,
   SidebarHeader,
@@ -11,21 +12,14 @@ import { Link } from "react-router-dom";
 import { FaFolder } from "react-icons/fa";
 
 export default function EditRecipeSideBar(props) {
-  //   const [collapsed, toggleMenuCollapse] = useState(false);
-
   return (
     <ProSidebar
-    className=" z-10"
+      className="z-10 p-0"
       id="edit-sidebar"
       data-testid="sidebarMain"
       collapsed={false}
-      className="p-0"
     >
-      <SidebarHeader
-        className="p-3 border-b-0"
-        data-testid="sidebarToggle"
-        // onClick={() => toggleMenuCollapse(!collapsed)}
-      >
+      <SidebarHeader className="p-3 border-b-0" data-testid="sidebarToggle">
         <h1 className="text-lg text-center capitalize">
           <b>{props.recipe.title}</b>
         </h1>

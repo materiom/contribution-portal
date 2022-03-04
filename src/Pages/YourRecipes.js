@@ -1,9 +1,15 @@
-import React, { useEffect } from "react";
+// Import dependencies
+import React from "react";
 import { BsListUl } from "react-icons/bs";
+
+// Import custom components
 import RecipeTable from "../Components/RecipeTable";
+
+// Import custom hooks
 import useUpdateTitle from "../Hooks/UpdateTitle";
 
 function YourRecipes() {
+  // Custom hook to update page title on initial load
   useUpdateTitle("Your Recipes");
   return (
     <div className="min-h-full flex flex-col p-20">

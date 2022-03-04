@@ -1,37 +1,26 @@
-import React, { useEffect, useState } from "react";
+// Import dependencies
+import React from "react";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import "./index.css";
 
-import { BrowserRouter, Switch, Route, Router } from "react-router-dom";
-import SideBar from "./Components/SideBar";
+// Import pages
 import Dashboard from "./Pages/Dashboard";
-import { NotFound } from "./Pages/NotFound";
+import NotFound from "./Pages/NotFound";
 import Login from "./Pages/Login";
 import Warning from "./Pages/Warning";
 import EditRecipe from "./Pages/EditRecipe";
 import NewRecipe from "./Pages/NewRecipe";
 import SubmissionConfirmation from "./Pages/SubmissionConfirmation";
 import YourRecipes from "./Pages/YourRecipes";
-import { CordraClient } from "@cnri/cordra-client";
+
+// Import custom components
+import SideBar from "./Components/SideBar";
 import PrivateRoute from "./Components/PrivateRoute";
-import useChangeRoute from "./Hooks/ChangeRoute";
-import { userContext } from "../src/Hooks/UserContext";
 
-// const options = {
-//   username: "admin",
-//   password: "pass",
-// };
+// Import custom hooks
+import userContext from "../src/Hooks/UserContext";
 
-// const client = new CordraClient("https://localhost:8443", options);
-// client.search("type:Schema").then((response) => {
-//   console.log("Number of results: " + response.size);
-//   response.results.forEach((result) => {
-//     console.log(result.content.name);
-//   });
-// });
-
-// const user = {};
-// user.name = "Liam";
-// user.isNewUser = true;
+// Export App class component to be used in ./index.js
 export default class App extends React.Component {
   constructor() {
     super();
@@ -49,10 +38,13 @@ export default class App extends React.Component {
   };
 
   render() {
+    // Create user object to be passed to the context provider
+    // on line 42 for PrivateRoute.js & Login.js
     const userObject = {
       user: this.state.user,
       handleLogin: this.handleLogin,
     };
+
     return (
       <userContext.Provider value={userObject}>
         <BrowserRouter>
@@ -71,11 +63,7 @@ export default class App extends React.Component {
               <Route $exact={true} path="/warning" component={Warning} />
               <Route $exact={true} path="/new-recipe" component={NewRecipe} />
               <Route $exact={true} path="/edit-recipe" component={EditRecipe} />
-              <Route
-                $exact={true}
-                path="/edit-recipe/:id"
-                component={EditRecipe}
-              >
+              <Route path="/edit-recipe/:id" component={EditRecipe}>
                 <EditRecipe />
               </Route>
               <PrivateRoute

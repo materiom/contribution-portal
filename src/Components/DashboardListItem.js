@@ -1,7 +1,9 @@
+// Import dependencies 
 import React from "react";
 import { useHistory } from "react-router-dom";
 
 export default function DashboardListItem(props) {
+  // Used for page navigation
   const history = useHistory();
   return (
     <li
