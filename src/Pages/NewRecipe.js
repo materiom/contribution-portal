@@ -1,13 +1,42 @@
 // Import dependencies
-import React from "react";
+import { CordraClient } from "@cnri/cordra-client";
+import React, { useState } from "react";
 import { BsPencilSquare } from "react-icons/bs";
 import { FiArrowRight } from "react-icons/fi";
 import { useHistory } from "react-router-dom";
 import useUpdateTitle from "../Hooks/UpdateTitle";
 
 export default function NewRecipe() {
+  // Initialize state
+  const [recipeName, handleRecipeName] = useState("");
+
   // Custom hook to update page title on initial load
   useUpdateTitle("New Recipe");
+
+  const user = JSON.parse(sessionStorage.getItem("user"));
+
+  console.log(user);
+
+  const createNewRecipe = () => {
+    if (recipeName.length > 3) {
+      const client = new CordraClient("https://localhost:8443", {
+        username: user.username,
+        token: user.access_token,
+      });
+      const cordraObject = {
+        type: "Document",
+        content: { recipeName: recipeName },
+      };
+      let newRecipeID;
+      client.create(cordraObject).then(response => {
+          newRecipeID = response.id
+          console.log(response)
+          history.push(`/edit-recipe/${newRecipeID}`, { from: "/warning" });
+      }).catch(error => console.log(error))
+      
+    }
+  };
+
   const history = useHistory();
   return (
     <div className="min-h-full flex flex-col p-20">
@@ -33,14 +62,12 @@ export default function NewRecipe() {
         <input
           className="my-3 border-0 focus:rounded"
           label="recipeName"
+          name="recipeName"
+          value={recipeName}
+          onChange={(event) => handleRecipeName(event.target.value)}
           type="text"
         />
-        <button
-          onClick={() =>
-            history.push(`/edit-recipe/${0}`, { from: "/warning" })
-          }
-          className="blue-button"
-        >
+        <button onClick={() => createNewRecipe()} className="blue-button">
           Create
           <FiArrowRight />
         </button>

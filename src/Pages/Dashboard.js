@@ -18,7 +18,7 @@ export default function Dashboard(props) {
         <div className="max-w-[40%]">
           <h6 className="text-gray-400">Materiom Contribution Portal</h6>
           <h2 className=" text-3xl">
-            Welcome back {props.user.userObject.username}. 👋
+            Welcome back {props.user.userObject?.username}. 👋
           </h2>
           <p className="py-4 text-sm">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do

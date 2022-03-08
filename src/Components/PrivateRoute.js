@@ -4,7 +4,7 @@ import { Redirect, Route } from "react-router-dom";
 
 // Import custom hooks
 import userContext from "../Hooks/UserContext";
-
+import { isLoggedIn } from "../Hooks/clientUtils";
 // Custom route with auth added
 export default function PrivateRoute({ children, ...rest }) {
   const userStatus = useContext(userContext);

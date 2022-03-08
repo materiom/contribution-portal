@@ -15,7 +15,7 @@ export default function EditRecipeListItem(props) {
 
   return (
     <li
-      onClick={() => props.toggle()}
+      onClick={() => props.showDetails()}
       className="flex items-center bg-neutral-100 p-5 mb-3 rounded hover:bg-neutral-200 active:bg-MatOrange"
     >
       <div className={"text-white h-fit p-2 rounded " + style}>{icon}</div>

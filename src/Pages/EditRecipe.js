@@ -1,10 +1,11 @@
 // Import dependencies
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { FiArrowUpRight } from "react-icons/fi";
 import { dummyData } from "../Data";
 // Import custom hooks
 import useUpdateTitle from "../Hooks/UpdateTitle";
+import { getDatabaseItemById, getUserToken } from "../Hooks/clientUtils";
 // Custom components
 import EditRecipeListItem from "../Components/EditRecipeListItem";
 import EditRecipeSideBar from "../Components/EditRecipeSideBar";
@@ -12,7 +13,8 @@ import EditRecipeDetails from "../Components/EditRecipeDetails";
 
 export default function EditRecipe() {
   // Initialize state
-  const [showEditRecipeDetails, handleShowEditRecipeDetails] = useState(true);
+  const [showEditRecipeDetails, handleShowEditRecipeDetails] = useState(false);
+  const [recipeToEdit, updateRecipe] = useState({});
 
   // Function to toggle the recipe details on line 27
   const showDetails = () => {
@@ -24,22 +26,29 @@ export default function EditRecipe() {
 
   // Get URL parameters
   const params = useParams();
+  // Create recipe id from params
+  const recipeId = params.test + "/" + params.id;
+  // Get user token for DB
+  const userToken = getUserToken();
+  // Get recipe from DB and update state
+  const getRecipe = async () => {
+    const recipe = await getDatabaseItemById(userToken, recipeId);
+    updateRecipe(recipe);
+  };
+  // useEffect hook called once on render to get the recipe
+  useEffect(() => {
+    getRecipe();
+  }, []);
 
   // Dummy data
-  const recipe = dummyData[params.id];
-  console.log(params)
+  const recipe = dummyData[0];
   return (
     <div className="flex ">
-      <EditRecipeSideBar
-        showDetails={showDetails}
-        show={showEditRecipeDetails}
-        recipe={recipe}
-      />
+      <EditRecipeSideBar showDetails={showDetails} recipe={recipe} />
       <div className="flex flex-col w-[50%] min-w[500px] m-auto">
         <div className="flex flex-col mb-5">
           <h2 className="text-3xl text-center my-2 capitalize">
-            {//recipe.title
-            }
+            {recipeToEdit.content?.recipeName}
           </h2>
           <div className="flex justify-around">
             <Link to="/">
@@ -49,7 +58,7 @@ export default function EditRecipe() {
               </p>
             </Link>
             <p className="text-xs text-gray-400">
-              Created:{/*  {recipe.dateCreated} */}
+              Created: {recipe.dateCreated}
             </p>
             <p className="text-xs text-gray-400">REF: MTRM0001 </p>
           </div>
@@ -57,7 +66,7 @@ export default function EditRecipe() {
         <ul className="p-0 my-5">
           <EditRecipeListItem
             title={"Recipe details"}
-            toggle={() => handleShowEditRecipeDetails(true)}
+            showDetails={showDetails}
             progress="complete"
             description={"Lorem ipsum tempor incididunt ut labore et aliqua."}
           />

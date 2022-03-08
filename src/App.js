@@ -34,7 +34,7 @@ export default class App extends React.Component {
 
   handleLogin = (userObject) => {
     this.setState({ user: { loggedIn: true, userObject: userObject } });
-    localStorage.setItem("user", JSON.stringify(userObject));
+    sessionStorage.setItem("user", JSON.stringify(userObject));
   };
 
   render() {
@@ -48,7 +48,7 @@ export default class App extends React.Component {
     return (
       <userContext.Provider value={userObject}>
         <BrowserRouter>
-          <div className="flex h-screen bg-neutral-300 min-w-full">
+          <div className="flex h-screen bg-neutral-300 min-w-full overflow-hidden">
             {/* Sliding side menu */}
 
             <Switch>
@@ -62,10 +62,11 @@ export default class App extends React.Component {
               <Route path="/login" component={Login} />
               <Route $exact={true} path="/warning" component={Warning} />
               <Route $exact={true} path="/new-recipe" component={NewRecipe} />
-              <Route $exact={true} path="/edit-recipe" component={EditRecipe} />
-              <Route path="/edit-recipe/:id" component={EditRecipe}>
+              <Route path="/edit-recipe/:test/:id" component={EditRecipe}>
                 <EditRecipe />
               </Route>
+              <Route $exact={true} path="/edit-recipe" component={EditRecipe} />
+              
               <PrivateRoute
                 exact="true"
                 path="/your-recipes"
