@@ -21,7 +21,7 @@ function RecipeTableRow(props) {
       <td className="px-6 py-4 text-sm text-gray-500  rounded capitalize">
         <div
           className={
-            "rounded p-1 text-center w-20 " +
+            "rounded p-1 text-center w-20 mx-auto " +
             (props.data.status === "approved"
               ? "bg-green-400"
               : "bg-orange-400")
@@ -33,10 +33,10 @@ function RecipeTableRow(props) {
       <td className="px-6 py-4 text-sm text-gray-500">
         {parseInt(props.data.views).toLocaleString()}
       </td>
-      <td className="px-6 py-4 flex">
+      <td className="px-6 py-4 flex justify-around">
         <div
           onClick={() =>
-            history.push(`/edit-recipe/${props.index}`, {
+            history.push(`/new-recipe`, {
               from: "/your-recipes",
             })
           }

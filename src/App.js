@@ -19,6 +19,7 @@ import PrivateRoute from "./Components/PrivateRoute";
 
 // Import custom hooks
 import userContext from "../src/Hooks/UserContext";
+import Search from "./Pages/Search";
 
 // Export App class component to be used in ./index.js
 export default class App extends React.Component {
@@ -76,6 +77,11 @@ export default class App extends React.Component {
                 $exact={true}
                 path="/confirmation"
                 component={SubmissionConfirmation}
+              />
+              <Route
+                $exact={true}
+                path="/search"
+                component={Search}
               />
 
               <Route $exact={true} to="/*" component={NotFound} />

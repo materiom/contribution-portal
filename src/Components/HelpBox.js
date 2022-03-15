@@ -36,7 +36,7 @@ export default function HelpBox() {
       <p className="text-xs py-3">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit
       </p>
-      <Link to="/guide">
+      <Link t to="https://materiom.org/contribute-guide">
         <button className="flex text-white text-xs p-2 bg-teal-600 rounded w-32 justify-around items-center">
           Read Guide
           <FiArrowUpRight />

@@ -1,5 +1,5 @@
 // Import dependencies
-import React from "react";
+import React, { useState } from "react";
 import {
   ProSidebar,
   SidebarHeader,
@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import { FaFolder } from "react-icons/fa";
 
 export default function EditRecipeSideBar(props) {
+    const [showDetailsSubMenu, toggleShowDetailsSubMenu] = useState(true)
   return (
     <ProSidebar
       className="z-10 p-0"
@@ -21,28 +22,34 @@ export default function EditRecipeSideBar(props) {
     >
       <SidebarHeader className="p-3 border-b-0" data-testid="sidebarToggle">
         <h1 className="text-lg text-center capitalize">
-          <b>{props.recipe.title}</b>
+          <b>{props.recipeToEdit && props.recipeToEdit.content.recipeName}</b>
         </h1>
       </SidebarHeader>
       <Menu>
         <SubMenu
+          open={showDetailsSubMenu}
+          onClick={() => toggleShowDetailsSubMenu(!showDetailsSubMenu)}
           className="border-y border-white first:p-0"
           title="Recipe Details"
           icon={<FaFolder />}
         >
           <MenuItem>
             <button onClick={() => props.showDetails()}>
-              Title: {props.recipe.title}
+              Title:{" "}
+              {props.recipeToEdit && props.recipeToEdit.content.recipeName}
             </button>
           </MenuItem>
           <MenuItem>
-            <Link to="/drafts">Difficulty: {props.recipe.difficulty}/5</Link>
+            <button onClick={() => props.showDetails()}>
+              Difficulty:{" "}
+              {props.recipeToEdit && props.recipeToEdit.content.difficulty}/5
+            </button>
           </MenuItem>
           <MenuItem>
-            <Link to="/templates">
-              Author{props.recipe.authors.length > 1 ? "s" : ""}:{" "}
-              {props.recipe.authors[0]} + {props.recipe.authors.length - 1} more
-            </Link>
+            <button onClick={() => props.showDetails()}>
+              Authors:{" "}
+              {props.recipeToEdit && props.recipeToEdit.content.authors}
+            </button>
           </MenuItem>
         </SubMenu>
         <SubMenu

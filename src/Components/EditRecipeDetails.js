@@ -1,19 +1,82 @@
 // Import dependencies
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { BsFillPlusSquareFill, BsPlus } from "react-icons/bs";
 import { FiArrowUpRight } from "react-icons/fi";
 import { RiListUnordered, RiTBoxLine } from "react-icons/ri";
+import { getUserToken, updateDatabaseItemById } from "../Hooks/clientUtils";
+import AddBlock from "./AddBlock";
+import AuthorTag from "./AuthorTag";
+import EditRecipeDetailsInput from "./EditRecipeDetailsInput";
 
 function EditRecipeDetails(props) {
   // Initialize state
+  const [additionalSections, updateAdditionalSections] = useState({
+    description: false,
+    time: false,
+  });
+  const [authorTagsArray, updateAuthorTagsArray] = useState(
+    props.recipeToEdit ? props.recipeToEdit.content.authors : []
+  );
+  const [description, updateDescription] = useState(
+    props.recipeToEdit ? props.recipeToEdit.content.description : ""
+  );
+  const [newAuthor, updateNewAuthor] = useState("");
+  const updateRecipeContent = (event) => {
+    props.updateRecipe((prevState) => ({
+      ...prevState,
+      content: {
+        ...prevState.content,
+        [event.target.name]: event.target.value,
+      },
+    }));
+    console.log(props);
+  };
 
-  // Function to toggle the modal
+  // Function to save data
+  const saveRecipeDetails = async () => {
+    const userToken = getUserToken();
+    const id = props.recipeToEdit.id;
+    const content = {
+      recipeName: props.recipeToEdit.content.recipeName,
+      difficulty: props.recipeToEdit.content.difficulty,
+      quantity: props.recipeToEdit.content.quantity,
+      authors: authorTagsArray,
+      description: description,
+    };
+    await updateDatabaseItemById(userToken, id, content)
+      .then(props.refreshRecipe())
+      .catch((error) => console.log(error));
+  };
+
+  const removeAuthor = (index) => {
+    authorTagsArray.splice(index, 1);
+    updateAuthorTagsArray([...authorTagsArray]);
+  };
+
+  let renderedTagsArray = authorTagsArray.map((item, index) => {
+    return (
+      <AuthorTag
+        name={item}
+        key={index}
+        removeAuthor={() => removeAuthor(index)}
+      />
+    );
+  });
+
   return (
-      
     <div
-      className={`overflow-hidden absolute
-       z-50 h-modal md:h-full top-0 right-0 bottom-0 left-0 bg-gray-700 bg-opacity-70  ` + (props.show && "-z-10") }
+      className={
+        `overflow-hidden absolute
+       z-50 h-modal md:h-full top-0 right-0 bottom-0 left-0 bg-gray-700 bg-opacity-70  ` +
+        (props.show && "-z-10")
+      }
     >
-      <div className={" px-4 w-full max-w-4xl h-full absolute right-0 transition-all duration-500  "  + (props.show && "right-[-80%] bg-opacity-0 -z-10")}>
+      <div
+        className={
+          " px-4 w-full max-w-4xl h-full absolute right-0 transition-all duration-500  " +
+          (props.show && "right-[-80%] bg-opacity-0 -z-10")
+        }
+      >
         <div className=" h-full bg-white rounded-lg shadow dark:bg-gray-300">
           <div className=" flex justify-start items-center p-5 rounded-t border-b dark:border-gray-600">
             <button
@@ -31,70 +94,44 @@ function EditRecipeDetails(props) {
                 <path
                   fillRule="evenodd"
                   d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                  clip-rule="evenodd"
+                  clipRule="evenodd"
                 ></path>
               </svg>
             </button>
             <h3 className="text-xl font-semibold lg:text-2xl text-black0">
-              {props.recipe.title}
+              {props.recipeToEdit.content !== undefined &&
+                props.recipeToEdit.content.recipeName}
             </h3>
-            <button className="blue-button ml-auto">
+            <button
+              onClick={() => saveRecipeDetails()}
+              className="blue-button ml-auto"
+            >
               Save
               <FiArrowUpRight />
             </button>
           </div>
           <div className="flex flex-col items-center">
-            <div className="space-y-6 flex flex-col  my-5 bg-white rounded w-[400px] p-2">
-              <label
-                className="text-gray-400 text-xs flex justify-between"
-                htmlFor="recipeName"
-              >
-                <h6 className="flex items-center ">
-                  <RiTBoxLine className="mr-3" /> RECIPE TITLE
-                </h6>
-                <h6>Required</h6>
-              </label>
-              <input
-                className="my-3 border-0 focus:rounded"
-                label="recipeName"
-                type="text"
-              />
-            </div>
-
-            <div className="space-y-6 flex flex-col  my-5 bg-white rounded w-[400px] p-2">
-              <label
-                className="text-gray-400 text-xs flex justify-between"
-                htmlFor="recipeName"
-              >
-                <h6 className="flex items-center ">
-                  <RiTBoxLine className="mr-3" /> DIFFICULTY
-                </h6>
-                <h6>Required</h6>
-              </label>
-              <input
-                className="my-3 border-0 focus:rounded"
-                label="recipeName"
-                type="text"
-              />
-            </div>
-
-            <div className="space-y-6 flex flex-col  my-5 bg-white rounded w-[400px] p-2">
-              <label
-                className="text-gray-400 text-xs flex justify-between"
-                htmlFor="recipeName"
-              >
-                <h6 className="flex items-center ">
-                  <RiTBoxLine className="mr-3" /> OUTPUT QUANTITY
-                </h6>
-                <h6>Required</h6>
-              </label>
-              <input
-                className="my-3 border-0 focus:rounded"
-                label="recipeName"
-                type="text"
-              />
-            </div>
-
+            {/* Edit difficulty */}
+            <EditRecipeDetailsInput
+              recipeToEdit={props.recipeToEdit}
+              updateRecipe={updateRecipeContent}
+              title="difficulty"
+              type="input"
+              required={true}
+              number={true}
+              max={5}
+            />
+            {/* Edit quantity */}
+            <EditRecipeDetailsInput
+              recipeToEdit={props.recipeToEdit}
+              updateRecipe={updateRecipeContent}
+              title="quantity"
+              type="input"
+              required={true}
+              number={false}
+              max={""}
+            />
+            {/* Edit author tags */}
             <div className="space-y-6 flex flex-col  my-5 bg-white rounded w-[400px] p-2">
               <label
                 className="text-gray-400 text-xs flex justify-between"
@@ -105,33 +142,78 @@ function EditRecipeDetails(props) {
                 </h6>
                 <h6>Required</h6>
               </label>
+              {/* Array of AuthorTag components */}
+              <div className="flex flex-wrap">{renderedTagsArray}</div>
               <input
-                className="my-3 border-0 focus:rounded"
+                value={newAuthor}
+                onChange={(event) => updateNewAuthor(event.target.value)}
+                className="my-3 border-1 rounded"
                 label="recipeName"
                 type="text"
               />
+              <BsFillPlusSquareFill
+                onClick={() => {
+                  updateAuthorTagsArray([...authorTagsArray, newAuthor]);
+                  updateNewAuthor("");
+                }}
+              />
             </div>
-          </div>
-          <div className="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
-            <button
-              data-modal-toggle="defaultModal"
-              type="button"
-              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            >
-              I accept
-            </button>
-            <button
-              onClick={() => props.showDetails()}
-              type="button"
-              className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600"
-            >
-              Decline
-            </button>
+            {/* Edit description */}
+            {additionalSections.description && (
+              <EditRecipeDetailsInput
+                recipeToEdit={props.recipeToEdit}
+                updateRecipe={updateRecipeContent}
+                title="description"
+                type="textarea"
+                required={false}
+                number={false}
+                max={""}
+                className="animate-[fade_5s_ease-in-out]"
+              />
+            )}
+            {/* Edit time */}
+            {additionalSections.time && (
+              <EditRecipeDetailsInput
+                recipeToEdit={props.recipeToEdit}
+                updateRecipe={updateRecipeContent}
+                title="time"
+                type="input"
+                required={false}
+                number={false}
+                max={""}
+                className="animate-[fade_5s_ease-in-out]"
+              />
+            )}
+            {!additionalSections.description && (
+              <AddBlock
+                title="DESCRIPTION"
+                sections={additionalSections}
+                add={() => {
+                  updateAdditionalSections({
+                    ...additionalSections,
+                    description: !additionalSections.description,
+                  });
+                }}
+              />
+            )}
+
+            {!additionalSections.time && (
+              <AddBlock
+                title="TIME"
+                sections={additionalSections}
+                add={() => {
+                  updateAdditionalSections({
+                    ...additionalSections,
+                    time: !additionalSections.time,
+                  });
+                }}
+              />
+            )}
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default EditRecipeDetails;

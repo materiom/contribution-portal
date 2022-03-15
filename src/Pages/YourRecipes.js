@@ -20,7 +20,7 @@ function YourRecipes() {
   // Custom hook to update page title on initial load
   useUpdateTitle("Your Recipes");
   return (
-    <div className="min-h-full flex flex-col p-20">
+    <div className="min-h-full w-full flex flex-col p-20">
       <div className="flex flex-col w-full">
         <h6 className="text-gray-400 text-sm">Materiom Contribution Portal</h6>
 

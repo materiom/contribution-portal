@@ -43,24 +43,44 @@ export default function Login() {
   };
 
   return (
-    <div>
+    <div className="m-auto">
       {/* If user is logged in redirect to Dashboard, else show login form */}
       {!userStatus.user.loggedIn ? (
-        <form onSubmit={login}>
-          <input
-            type="text"
-            onChange={(event) => handleUserChange(event.target.value)}
-            value={user}
-            name="username"
-          ></input>
-          <input
-            onChange={(event) => handlePasswordChange(event.target.value)}
-            type="password"
-            value={pass}
-            name="password"
-          ></input>
-          <button type="submit">Login</button>
-        </form>
+        <div className="flex flex-col justify-center text-center mx-auto">
+          <h1 className="text-4xl">Materiom Contribution Portal</h1>
+          <h1 className="text-2xl">Login</h1>
+          <form
+            className="flex flex-col justify-around h-96 items-center"
+            onSubmit={login}
+          >
+            <div className="flex flex-col items-center">
+              <label htmlFor="username">Username</label>
+              <input
+                type="text"
+                onChange={(event) => handleUserChange(event.target.value)}
+                value={user}
+                name="username"
+                label="username"
+              ></input>
+            </div>
+            <div className="flex flex-col items-center">
+              <label htmlFor="password">Password</label>
+              <input
+                onChange={(event) => handlePasswordChange(event.target.value)}
+                type="password"
+                value={pass}
+                name="password"
+                label="password"
+              ></input>
+            </div>
+            <button className="blue-button" type="submit">
+              Login
+            </button>
+            <p>
+              Need an account? Let's get <a href="/register" className=" text-MatBlue hover:underline">registered!</a>
+            </p>
+          </form>
+        </div>
       ) : (
         <Redirect to="/" />
       )}

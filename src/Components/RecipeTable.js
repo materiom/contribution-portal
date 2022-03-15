@@ -26,7 +26,7 @@ function RecipeTable() {
   });
   
   return (
-    <div className="w-fit mt-5 overflow-scroll">
+    <div className="w-full max-w-7xl mt-5 overflow-scroll">
       <div className="flex flex-col h-12 sticky  top-0 bg-neutral-300">
         <div className="flex">
           <div onClick={() => handleActive(true)} className="p-2">
@@ -38,7 +38,7 @@ function RecipeTable() {
         </div>
         <hr className={"blue-tab " + (!active && " ml-[4.5rem]")}></hr>
       </div>
-      <table>
+      <table className="w-full text-center">
         <thead className="bg-gray-200 border-2 border-gray-400  sticky top-12">
           <tr>
             <th className="px-6 py-2 max-w-xs text-xs text-gray-500">

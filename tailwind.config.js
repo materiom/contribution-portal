@@ -10,10 +10,25 @@ module.exports = {
         MatRed: "#b3243c",
         MatDark: "#646464",
       },
+      keyframes: {
+        fade: {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(-10px)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
+        },
+      },
+      animation: {
+        fade: "fade 1s ease-out",
+      },
     },
     variants: {
-        padding: ["first"]
-    }
+      padding: ["first"],
+    },
   },
   plugins: [require("@tailwindcss/forms")],
 };
