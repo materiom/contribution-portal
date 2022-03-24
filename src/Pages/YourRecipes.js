@@ -12,7 +12,7 @@ import { getUserToken } from "../Hooks/clientUtils";
 
 const userToken = getUserToken();
 
-const client = new CordraClient("https://localhost:8443", userToken);
+const client = new CordraClient("https://api.materiom.org");
       
 client.search("type:Document").then(response => console.log(response.results))
 

@@ -114,6 +114,7 @@ function EditRecipeDetails(props) {
             {/* Edit difficulty */}
             <EditRecipeDetailsInput
               recipeToEdit={props.recipeToEdit}
+              value={props.recipeToEdit.difficulty}
               updateRecipe={updateRecipeContent}
               title="difficulty"
               type="input"
@@ -125,6 +126,7 @@ function EditRecipeDetails(props) {
             <EditRecipeDetailsInput
               recipeToEdit={props.recipeToEdit}
               updateRecipe={updateRecipeContent}
+              value={props.recipeToEdit.quantity}
               title="quantity"
               type="input"
               required={true}

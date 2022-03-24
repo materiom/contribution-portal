@@ -12,11 +12,11 @@ function RecipeTableRow(props) {
     <tr className="whitespace-nowrap">
       <td className="px-6 py-4 max-w-[200px]">
         <div className="text-sm text-gray-900 overflow-hidden text-ellipsis">
-          {props.data.title}
+          {props.key}
         </div>
       </td>
       <td className="px-6 py-4">
-        <div className="text-sm text-gray-500">{props.data.dateCreated}</div>
+        <div className="text-sm text-gray-500">{props.dateCreated}</div>
       </td>
       <td className="px-6 py-4 text-sm text-gray-500  rounded capitalize">
         <div

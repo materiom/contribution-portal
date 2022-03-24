@@ -5,7 +5,7 @@ import { RiTBoxLine } from "react-icons/ri";
 function EditRecipeDetailsInput(props) {
   const CustomTag = props.type;  
   const title = props.title
-  const dynamicValue = `props.recipeToEdit.content.${props.title}`
+  const dynamicValue = props.title
   return (
     <div className="mb-1 flex flex-col max-h-[200px] my-3 bg-white rounded w-[400px] p-2">
       <label
@@ -20,7 +20,7 @@ function EditRecipeDetailsInput(props) {
       <CustomTag
         max={props.max}
         className="my-3 max-h-30 border-0 focus:rounded"
-        value={dynamicValue}
+        value={props.value}
         onChange={(event) => {
           props.updateRecipe(event);
         }}

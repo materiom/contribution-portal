@@ -1,32 +1,61 @@
 // Import dependencies
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import RecipeTableRow from "./RecipeTableRow";
 import { dummyData } from "../Data";
+import { CordraClient } from "@cnri/cordra-client";
+import { getUserToken } from "../Hooks/clientUtils";
+import SearchResultsTableRow from "./SearchResultsTableRow";
 
 function RecipeTable() {
   // Initialize state
   const [active, handleActive] = useState(true);
+  const [recipes, updateRecipes] = useState([]);
 
-  // Render recipe table with dummy data and RecipeTableRow component
-  const recipeTableRows = dummyData.map((item, index) => {
-    return item.status === "draft" ? (
-      ""
-    ) : (
-      <RecipeTableRow key={item.title} data={item} index={index} />
-    );
-  });
+//   // Render recipe table with dummy data and RecipeTableRow component
+//   const recipeTableRows = dummyData.map((item, index) => {
+//     return item.status === "draft" ? (
+//       ""
+//     ) : (
+//       <RecipeTableRow key={item.title} data={item} index={index} />
+//     );
+//   });
 
-  // Render draft recipe table with dummy data and RecipeTableRow component
-  const draftTableRows = dummyData.map((item, index) => {
-    return item.status === "draft" ? (
-      <RecipeTableRow key={item.title} data={item} index={index} />
-    ) : (
-      ""
-    );
-  });
+//   // Render draft recipe table with dummy data and RecipeTableRow component
+//   const draftTableRows = dummyData.map((item, index) => {
+//     return item.status === "draft" ? (
+//       <RecipeTableRow key={item.title} data={item} index={index} />
+//     ) : (
+//       ""
+//     );
+//   });
+
+useEffect(() => {
+    const userToken = getUserToken();
+
+    const client = new CordraClient("https://localhost:8443", userToken);
+
+
+    client.authenticate(userToken).catch(async (error) => {
+      console.error(error);
+    });
+
+
+  client
+  .search("*:*")
+  .then((response) =>
+    response.results.map((item, index) => {
+        console.log(item)
+      return (
+          <SearchResultsTableRow key={item.id} data={item} index={index} />
+      )
+      
+    })
+  )
+  .then((results) => updateRecipes(results))
+}, [])
   
   return (
-    <div className="w-full max-w-7xl mt-5 overflow-scroll">
+    <div className="w-full mt-5 overflow-scroll">
       <div className="flex flex-col h-12 sticky  top-0 bg-neutral-300">
         <div className="flex">
           <div onClick={() => handleActive(true)} className="p-2">
@@ -40,18 +69,20 @@ function RecipeTable() {
       </div>
       <table className="w-full text-center">
         <thead className="bg-gray-200 border-2 border-gray-400  sticky top-12">
-          <tr>
-            <th className="px-6 py-2 max-w-xs text-xs text-gray-500">
-              Recipe Name
-            </th>
-            <th className="px-6 py-2 text-xs text-gray-500">Date Created</th>
-            <th className="px-6 py-2 text-xs text-gray-500">Status</th>
-            <th className="px-6 py-2 text-xs text-gray-500">Views</th>
-            <th className="px-6 py-2 text-xs text-gray-500">Actions</th>
-          </tr>
+          <tr className="">
+              <th className="px-6 py-2 text-xs text-gray-500">ID</th>
+              <th className="px-6 py-2 text-xs text-gray-500">Title</th>
+              <th className="px-6 py-2 text-xs text-gray-500">Difficulty</th>
+              <th className="px-6 py-2 text-xs text-gray-500">Date Created</th>
+              <th className="px-6 py-2 text-xs text-gray-500">Quantity</th>
+              <th className="px-6 py-2 text-xs text-gray-500">Authors</th>
+              <th className="px-6 py-2 text-xs text-gray-500">Time</th>
+              <th className="px-6 py-2 text-xs text-gray-500">Description</th>
+              <th className="px-6 py-2 text-xs text-gray-500">Actions</th>
+            </tr>
         </thead>
         <tbody className="bg-white">
-          {active ? recipeTableRows : draftTableRows}
+          {active ? recipes : ""}
         </tbody>
       </table>
     </div>
