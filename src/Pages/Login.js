@@ -13,7 +13,7 @@ export default function Login() {
   const [pass, handlePasswordChange] = useState("");
 
   // Create new Cordra client
-  const client = new CordraClient("https://localhost:8443");
+  const client = new CordraClient(process.env.REACT_APP_CORDRA_URL);
   const userStatus = useContext(userContext);
 
   // Check for user login in local storage on initial render

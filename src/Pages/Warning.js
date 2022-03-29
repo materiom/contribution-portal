@@ -37,7 +37,7 @@ export default function Warning() {
       <div className="flex flex-col justify-start">
         <div className="flex justify-start">
           <input
-            onClick={() => handleCheckboxes(1)}
+            onChange={() => handleCheckboxes(1)}
             checked={cb1}
             type="checkbox"
             id="warningCheckbox1"
@@ -49,7 +49,7 @@ export default function Warning() {
         </div>
         <div className="flex justify-start">
           <input
-            onClick={() => handleCheckboxes(2)}
+            onChange={() => handleCheckboxes(2)}
             checked={cb2}
             type="checkbox"
             id="warningCheckbox2"
@@ -61,7 +61,7 @@ export default function Warning() {
         </div>
         <div className="flex justify-start">
           <input
-            onClick={() => handleCheckboxes(3)}
+            onChange={() => handleCheckboxes(3)}
             checked={cb3}
             type="checkbox"
             id="warningCheckbox3"

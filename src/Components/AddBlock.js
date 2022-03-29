@@ -11,7 +11,6 @@ function AddBlock(props) {
       <BsFillPlusSquareFill
         onClick={() => {
           props.add();
-          console.log(props.sections)
         }}
         className="ml-auto my-auto h-8 w-8 text-zinc-400"
       />

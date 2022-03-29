@@ -1,9 +1,8 @@
 // Import dependencies
 import React, { useState } from "react";
-import { BsListUl } from "react-icons/bs";
-import { CordraClient } from "@cnri/cordra-client";
 
 // Import custom components
+import SearchRecipeTable from "../Components/SearchRecipeTable";
 
 // Import custom hooks
 import useUpdateTitle from "../Hooks/UpdateTitle";
@@ -12,11 +11,14 @@ import { FiSliders } from "react-icons/fi";
 
 function Search() {
   const [searchResults, updateSearchResults] = useState([]);
-  const [searchQuery, updateSearchQuery] = useState();
 
   const search = (event) => {
-    const userToken = getUserToken();
-    searchDatabase(userToken, event.target.value, updateSearchResults);
+    if (event.target.value.length < 1) {
+      updateSearchResults([]);
+    } else {
+      const userToken = getUserToken();
+      searchDatabase(userToken, event.target.value, updateSearchResults);
+    }
   };
 
   // Custom hook to update page title on initial load
@@ -39,22 +41,11 @@ function Search() {
           Filter
         </button>
       </div>
-      <div className="rounded-lg max-h-96 overflow-scroll p-5 bg-white min-h-[384px]">
-        <table className="bg-white rounded border-separate ">
-          <thead>
-            <tr className="">
-              <th>ID</th>
-              <th>Title</th>
-              <th>Difficulty</th>
-              <th>Date Created</th>
-              <th>Quantity</th>
-              <th>Authors</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody className="text-center">{searchResults}</tbody>
-        </table>
-      </div>
+      {searchResults.length !== 0 ? (
+        <SearchRecipeTable recipes={searchResults} />
+      ) : (
+        <h1>Enter a search...</h1>
+      )}
     </div>
   );
 }

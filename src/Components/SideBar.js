@@ -1,11 +1,6 @@
 // Import dependencies
 import React from "react";
-import {
-  ProSidebar,
-  SidebarHeader,
-  Menu,
-  MenuItem,
-} from "react-pro-sidebar";
+import { ProSidebar, SidebarHeader, Menu, MenuItem } from "react-pro-sidebar";
 import "react-pro-sidebar/dist/css/styles.css";
 import { Link } from "react-router-dom";
 import Icon from "./Icon";
@@ -15,14 +10,12 @@ import { IoMdExit } from "react-icons/io";
 export default function SideBar() {
   return (
     <ProSidebar className="" data-testid="sidebarMain" collapsed={true}>
-      <SidebarHeader
-        data-testid="sidebarToggle"
-      >
+      <SidebarHeader data-testid="sidebarToggle">
         <Icon customClassName={"mx-auto"} />
       </SidebarHeader>
       <Menu innerSubMenuArrows="true" iconShape="round">
         <MenuItem icon={<BsPencilSquare />}>
-          <Link $exact={true} to="/warning">
+          <Link exact="exact" to="/warning">
             New Recipe
           </Link>
         </MenuItem>

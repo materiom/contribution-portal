@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { FiArrowUpRight } from "react-icons/fi";
-import { dummyData } from "../Data";
 // Import custom hooks
 import useUpdateTitle from "../Hooks/UpdateTitle";
 import { getDatabaseItemById, getUserToken } from "../Hooks/clientUtils";
@@ -11,6 +10,7 @@ import EditRecipeListItem from "../Components/EditRecipeListItem";
 import EditRecipeSideBar from "../Components/EditRecipeSideBar";
 import EditRecipeDetails from "../Components/EditRecipeDetails";
 import { useHistory } from "react-router-dom";
+import EditRecipeIngredients from "../Components/EditRecipeIngredients";
 
 export default function EditRecipe() {
   // Custom hook to update page title on initial load
@@ -29,6 +29,8 @@ export default function EditRecipe() {
   };
   // Initialize state
   const [showEditRecipeDetails, handleShowEditRecipeDetails] = useState(true);
+  const [showEditRecipeIngredients, handleShowEditRecipeIngredients] =
+    useState(true);
   const [recipeToEdit, updateRecipe] = useState(false);
   const [termsAndConditions, updateTerms] = useState(false);
   const [complete, updateComplete] = useState(false);
@@ -41,6 +43,7 @@ export default function EditRecipe() {
   // useEffect hook called once on render to get the recipe
   useEffect(() => {
     getRecipe();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -50,14 +53,12 @@ export default function EditRecipe() {
       updateComplete(false);
     }
   }, [termsAndConditions]);
-  // Dummy data
-  const recipe = dummyData[0];
+
   return (
     <div className="flex ">
       <EditRecipeSideBar
         showDetails={showDetails}
         recipeToEdit={recipeToEdit}
-        recipe={recipe}
       />
       <div className="flex flex-col w-[50%] min-w[500px] m-auto">
         <div className="flex flex-col mb-5">
@@ -72,7 +73,7 @@ export default function EditRecipe() {
               </p>
             </Link>
             <p className="text-xs text-gray-400">
-              Created: {recipe.dateCreated}
+              Created: {"recipe.dateCreated"}
             </p>
             <p className="text-xs text-gray-400">REF: MTRM0001 </p>
           </div>
@@ -95,10 +96,23 @@ export default function EditRecipe() {
 
           <EditRecipeListItem
             title={"Recipe Ingredients"}
-            linkTo={"/warning"}
+            showDetails={() =>
+              handleShowEditRecipeIngredients(!showEditRecipeIngredients)
+            }
             progress={""}
             description={"Lorem ipsum tempor incididunt ut labore et aliqua."}
           />
+
+          <EditRecipeIngredients
+            refreshRecipe={getRecipe}
+            recipeToEdit={recipeToEdit}
+            updateRecipe={updateRecipe}
+            showIngredients={() =>
+              handleShowEditRecipeIngredients(!showEditRecipeIngredients)
+            }
+            show={showEditRecipeIngredients}
+          />
+
           <EditRecipeListItem
             title={"Recipe Method"}
             linkTo={"/warning"}

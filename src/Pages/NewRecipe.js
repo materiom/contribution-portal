@@ -17,7 +17,7 @@ export default function NewRecipe() {
 
   const createNewRecipe = () => {
     if (recipeName.length > 3) {
-      const client = new CordraClient("https://localhost:8443", {
+      const client = new CordraClient(process.env.REACT_APP_CORDRA_URL, {
         username: user.username,
         token: user.access_token,
       });
@@ -29,7 +29,7 @@ export default function NewRecipe() {
       client.create(cordraObject).then(response => {
           newRecipeID = response.id
           history.push(`/edit-recipe/${newRecipeID}`, { from: "/warning" });
-      }).catch(error => console.log(error))
+      }).catch(error => console.error(error))
       
     }
   };

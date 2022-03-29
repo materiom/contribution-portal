@@ -1,8 +1,9 @@
+// Import dependencies
 import { CordraClient } from "@cnri/cordra-client";
-import { useHistory } from "react-router-dom";
-import { RiFileCopyLine } from "react-icons/ri";
-import { Link } from "react-router-dom";
-import AuthorTag from "../Components/AuthorTag";
+
+// Import custom components
+import SearchResultsTableRow from "../Components/SearchResultsTableRow";
+
 // Function to check whether the user is logged in
 export const isLoggedIn = () => {
   const user = sessionStorage.getItem("user");
@@ -25,7 +26,7 @@ export const getUserToken = () => {
 
 // Function to get an item from the DB by ID
 export const getDatabaseItemById = async (userToken, id) => {
-  const client = new CordraClient("https://localhost:8443", userToken);
+  const client = new CordraClient(process.env.REACT_APP_CORDRA_URL, userToken);
   const params = { filterQueries: [`id:${id}`] };
   let results;
   await client
@@ -40,8 +41,9 @@ export const getDatabaseItemById = async (userToken, id) => {
   return results;
 };
 
+// Function to update the database
 export const updateDatabaseItemById = async (userToken, id, content) => {
-  const client = new CordraClient("https://localhost:8443", userToken);
+  const client = new CordraClient(process.env.REACT_APP_CORDRA_URL, userToken);
   const cordraUpdateObject = {
     id: id,
     content: content,
@@ -56,40 +58,16 @@ export const updateDatabaseItemById = async (userToken, id, content) => {
 };
 
 // Function to search database
-
 export const searchDatabase = (userToken, searchQuery, updateResults) => {
-  const client = new CordraClient("https://localhost:8443", userToken);
+  const client = new CordraClient(process.env.REACT_APP_CORDRA_URL, userToken);
 
   const params = { filterQueries: [searchQuery] };
   client
     .search("*:*", params)
     .then((response) =>
       response.results.map((item) => {
-        console.log(response.results);
-        return (
-          <tr key={item.id} className="text-center">
-            <td>{item.id}</td>
-            <td>{item.content.recipeName}</td>
-            <td>{item.content.difficulty}</td>
-            <td>
-              {(() => {
-                const date = new Date(item.metadata.createdOn);
-                return date.toLocaleString();
-              })()}
-            </td>
-            <td>{item.content.quantity}</td>
-            <td>
-              <AuthorTag name={item.content?.authors} />
-            </td>
-            <td>
-              <Link to={`/copy-recipe/${item.id}`} className="">
-                <div className="h-8 w-8 ml-3 text-white bg-MatOrange rounded flex justify-center items-center">
-                  <RiFileCopyLine />
-                </div>
-              </Link>
-            </td>
-          </tr>
-        );
+        return <SearchResultsTableRow key={item.id} data={item} />;
       })
-    ).then(results => updateResults(results))
+    )
+    .then((results) => updateResults(results));
 };

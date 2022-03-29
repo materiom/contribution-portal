@@ -29,7 +29,6 @@ function EditRecipeDetails(props) {
         [event.target.name]: event.target.value,
       },
     }));
-    console.log(props);
   };
 
   // Function to save data
@@ -45,7 +44,7 @@ function EditRecipeDetails(props) {
     };
     await updateDatabaseItemById(userToken, id, content)
       .then(props.refreshRecipe())
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   };
 
   const removeAuthor = (index) => {

@@ -20,6 +20,7 @@ import PrivateRoute from "./Components/PrivateRoute";
 // Import custom hooks
 import userContext from "../src/Hooks/UserContext";
 import Search from "./Pages/Search";
+import useChangeRoute from "./Hooks/ChangeRoute";
 
 // Export App class component to be used in ./index.js
 export default class App extends React.Component {
@@ -32,12 +33,16 @@ export default class App extends React.Component {
       },
     };
   }
-
   handleLogin = (userObject) => {
     this.setState({ user: { loggedIn: true, userObject: userObject } });
     sessionStorage.setItem("user", JSON.stringify(userObject));
   };
 
+  handleLogOut = (userObject) => {
+    this.setState({ user: { loggedIn: false, userObject: userObject } });
+    sessionStorage.removeItem("user");
+    useChangeRoute("/");
+  };
   render() {
     // Create user object to be passed to the context provider
     // on line 42 for PrivateRoute.js & Login.js
@@ -57,34 +62,30 @@ export default class App extends React.Component {
             </Switch>
 
             <Switch>
-              <PrivateRoute exact="true" path="/">
+              <PrivateRoute exact={true} path="/">
                 <Dashboard user={this.state.user} />
               </PrivateRoute>
               <Route path="/login" component={Login} />
-              <Route $exact={true} path="/warning" component={Warning} />
-              <Route $exact={true} path="/new-recipe" component={NewRecipe} />
+              <Route exact={true} path="/warning" component={Warning} />
+              <Route exact={true} path="/new-recipe" component={NewRecipe} />
               <Route path="/edit-recipe/:test/:id" component={EditRecipe}>
                 <EditRecipe />
               </Route>
-              <Route $exact={true} path="/edit-recipe" component={EditRecipe} />
-              
+              <Route exact={true} path="/edit-recipe" component={EditRecipe} />
+
               <PrivateRoute
-                exact="true"
+                exact={true}
                 path="/your-recipes"
                 component={YourRecipes}
               />
               <Route
-                $exact={true}
+                exact={true}
                 path="/confirmation"
                 component={SubmissionConfirmation}
               />
-              <Route
-                $exact={true}
-                path="/search"
-                component={Search}
-              />
+              <Route exact={true} path="/search" component={Search} />
 
-              <Route $exact={true} to="/*" component={NotFound} />
+              <Route exact={true} to="/*" component={NotFound} />
             </Switch>
           </div>
         </BrowserRouter>
