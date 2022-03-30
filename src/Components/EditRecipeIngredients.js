@@ -1,12 +1,16 @@
 // Import dependencies
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FiArrowUpRight } from "react-icons/fi";
 
 // Import custom components
-import EditRecipeDetailsInput from "./EditRecipeDetailsInput";
+import EditRecipeIngredientsInput from "./EditRecipeIngredientsInput";
+import AddBlock from "./AddBlock";
+import XButton from "./XButton";
 
 function EditRecipeIngredients(props) {
   // Initialize state
+
+  const [ingredientsArray, updateIngredientsArray] = useState([]);
 
   const updateRecipeContent = (event) => {
     props.updateRecipe((prevState) => ({
@@ -18,8 +22,31 @@ function EditRecipeIngredients(props) {
     }));
   };
 
+  // Function to add new ingredient block
+  const addIngredientBlock = () => {
+    const index = ingredientsArray.length + 1;
+    updateIngredientsArray([
+      ...ingredientsArray,
+      <EditRecipeIngredientsInput key={index} title={`ingredient-#${index}`} />,
+    ]);
+  };
+
   // Function to save data
   const saveRecipeDetails = async () => {};
+
+  useEffect(() => {
+    updateIngredientsArray(
+      ingredientsArray.map((ingredient, index) => {
+        return (
+          <EditRecipeIngredientsInput
+            key={index}
+            title={`ingredient-#${index + 1}`}
+            ingredientDetails={ingredient}
+          />
+        );
+      })
+    );
+  }, []);
 
   return (
     <div
@@ -35,31 +62,9 @@ function EditRecipeIngredients(props) {
           (props.show && "right-[-80%] bg-opacity-0 -z-10")
         }
       >
-        <div className=" h-full bg-white rounded-lg shadow dark:bg-gray-300">
+        <div className=" h-full bg-white rounded-lg shadow dark:bg-gray-300 overflow-y-scroll">
           <div className=" flex justify-start items-center p-5 rounded-t border-b dark:border-gray-600">
-            <button
-              type="button"
-              className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-              onClick={() => props.showIngredients()}
-            >
-              <svg
-                onClick={() => props.showIngredients()}
-                className="w-5 h-5"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                  clipRule="evenodd"
-                ></path>
-              </svg>
-            </button>
-            <h3 className="text-xl font-semibold lg:text-2xl text-black0">
-              {props.recipeToEdit.content !== undefined &&
-                props.recipeToEdit.content.recipeName}
-            </h3>
+            <XButton buttonFunction={props.showIngredients} />
             <button
               onClick={() => saveRecipeDetails()}
               className="blue-button ml-auto"
@@ -69,66 +74,17 @@ function EditRecipeIngredients(props) {
             </button>
           </div>
           <div className="flex flex-col items-center">
-            {/* Edit difficulty */}
-            <EditRecipeDetailsInput
-              recipeToEdit={props.recipeToEdit}
-              value={props.recipeToEdit.difficulty}
-              updateRecipe={updateRecipeContent}
-              title="ingredient"
-              type="input"
-              required={true}
-              number={false}
-            />
-            {/* Edit quantity */}
-            <EditRecipeDetailsInput
-              recipeToEdit={props.recipeToEdit}
-              updateRecipe={updateRecipeContent}
-              value={props.recipeToEdit.quantity}
-              title="quantity"
-              type="input"
-              required={true}
-              number={false}
-              max={""}
-            />
-            <EditRecipeDetailsInput
-              recipeToEdit={props.recipeToEdit}
-              value={props.recipeToEdit.difficulty}
-              updateRecipe={updateRecipeContent}
-              title="ingredient #2"
-              type="input"
-              required={true}
-              number={false}
-            />
-            {/* Edit quantity */}
-            <EditRecipeDetailsInput
-              recipeToEdit={props.recipeToEdit}
-              updateRecipe={updateRecipeContent}
-              value={props.recipeToEdit.quantity}
-              title="quantity #2"
-              type="input"
-              required={true}
-              number={false}
-              max={""}
-            />
-            <EditRecipeDetailsInput
-              recipeToEdit={props.recipeToEdit}
-              value={props.recipeToEdit.difficulty}
-              updateRecipe={updateRecipeContent}
-              title="ingredient #3"
-              type="input"
-              required={true}
-              number={false}
-            />
-            {/* Edit quantity */}
-            <EditRecipeDetailsInput
-              recipeToEdit={props.recipeToEdit}
-              updateRecipe={updateRecipeContent}
-              value={props.recipeToEdit.quantity}
-              title="quantity #3"
-              type="input"
-              required={true}
-              number={false}
-              max={""}
+            <div className="flex flex-wrap p-2 justify-around">{ingredientsArray}</div>
+
+            <AddBlock
+              upright={ingredientsArray.length > 3}
+              additionalClasses={
+                "absolute bottom-10 left-auto border-2 border-MatBlue " +
+                (ingredientsArray.length > 3 &&
+                  "duration-500 [writing-mode:vertical-lr] w-min left-[80%]")
+              }
+              add={addIngredientBlock}
+              title="ADD INGREDIENT"
             />
           </div>
         </div>

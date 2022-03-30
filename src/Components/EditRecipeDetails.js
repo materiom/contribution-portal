@@ -21,6 +21,7 @@ function EditRecipeDetails(props) {
     props.recipeToEdit ? props.recipeToEdit.content.description : ""
   );
   const [newAuthor, updateNewAuthor] = useState("");
+  
   const updateRecipeContent = (event) => {
     props.updateRecipe((prevState) => ({
       ...prevState,
