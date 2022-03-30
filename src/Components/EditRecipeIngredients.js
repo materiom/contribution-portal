@@ -9,18 +9,7 @@ import XButton from "./XButton";
 
 function EditRecipeIngredients(props) {
   // Initialize state
-
   const [ingredientsArray, updateIngredientsArray] = useState([]);
-
-  const updateRecipeContent = (event) => {
-    props.updateRecipe((prevState) => ({
-      ...prevState,
-      content: {
-        ...prevState.content,
-        [event.target.name]: event.target.value,
-      },
-    }));
-  };
 
   // Function to add new ingredient block
   const addIngredientBlock = () => {
@@ -32,9 +21,10 @@ function EditRecipeIngredients(props) {
   };
 
   // Function to save data
-  const saveRecipeDetails = async () => {};
+  const saveRecipeIngredients = async () => {};
 
   useEffect(() => {
+    
     updateIngredientsArray(
       ingredientsArray.map((ingredient, index) => {
         return (
@@ -46,6 +36,7 @@ function EditRecipeIngredients(props) {
         );
       })
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -66,7 +57,7 @@ function EditRecipeIngredients(props) {
           <div className=" flex justify-start items-center p-5 rounded-t border-b dark:border-gray-600">
             <XButton buttonFunction={props.showIngredients} />
             <button
-              onClick={() => saveRecipeDetails()}
+              onClick={() => saveRecipeIngredients()}
               className="blue-button ml-auto"
             >
               Save

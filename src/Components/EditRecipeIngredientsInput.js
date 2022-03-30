@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { BsX } from "react-icons/bs";
+import React from "react";
 import { RiTBoxLine } from "react-icons/ri";
 import getRandomColor from "../Hooks/getRandomColor";
 
