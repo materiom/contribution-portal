@@ -58,16 +58,26 @@ export const updateDatabaseItemById = async (userToken, id, content) => {
 };
 
 // Function to search database
-export const searchDatabase = (userToken, searchQuery, updateResults) => {
+export const searchDatabase = (
+  userToken,
+  searchQuery,
+  filter,
+  updateResults
+) => {
   const client = new CordraClient(process.env.REACT_APP_CORDRA_URL, userToken);
+  const searchQueryArr = new Array(searchQuery);
+  const filteredSearchQuery = filter
+    ? [searchQuery, `+type:${filter}`]
+    : [searchQuery];
+  const params = { filterQueries: filteredSearchQuery };
 
-  const params = { filterQueries: [searchQuery] };
   client
-    .search("*:*", params)
+    .search(`*:*`, params)
     .then((response) =>
       response.results.map((item) => {
         return <SearchResultsTableRow key={item.id} data={item} />;
       })
     )
-    .then((results) => updateResults(results));
+    .then((results) => updateResults(results))
+    .catch((err) => console.error(err));
 };
