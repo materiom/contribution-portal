@@ -1,7 +1,6 @@
 // Import dependencies
 import React, { useEffect, useState } from "react";
 import RecipeTableRow from "./RecipeTableRow";
-import { dummyData } from "../Data";
 import { CordraClient } from "@cnri/cordra-client";
 import { getUserToken } from "../Hooks/clientUtils";
 

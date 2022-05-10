@@ -17,7 +17,7 @@ export default function NewRecipe() {
 
   const createNewRecipe = () => {
     if (recipeName.length > 3) {
-      const client = new CordraClient("https://localhost:8443", {
+      const client = new CordraClient(process.env.REACT_APP_CORDRA_URL, {
         username: user.username,
         token: user.access_token,
       });

@@ -1,20 +1,12 @@
 // Import dependencies
 import React from "react";
 import { BsListUl } from "react-icons/bs";
-import { CordraClient } from "@cnri/cordra-client";
 
 // Import custom components
 import RecipeTable from "../Components/RecipeTable";
 
 // Import custom hooks
 import useUpdateTitle from "../Hooks/UpdateTitle";
-import { getUserToken } from "../Hooks/clientUtils";
-
-const userToken = getUserToken();
-
-const client = new CordraClient("https://localhost:8443", userToken);
-      
-client.search("type:Document").then(response => console.log(response.results))
 
 function YourRecipes() {
   // Custom hook to update page title on initial load

@@ -18,9 +18,7 @@ export default function SubmissionConfirmation() {
       <div className="flex flex-col justify-start">
         <div className="flex justify-around my-5">
           <Link to="/">
-            <button className="red-button">
-              Return to dashboard
-            </button>
+            <button className="red-button">Return to dashboard</button>
           </Link>
         </div>
       </div>

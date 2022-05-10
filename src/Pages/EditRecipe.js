@@ -50,6 +50,7 @@ export default function EditRecipe() {
   // useEffect hook called once on render to get the recipe
   useEffect((getRecipe) => {
     getRecipe();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -135,10 +136,23 @@ export default function EditRecipe() {
 
           <EditRecipeListItem
             title={"Recipe Ingredients"}
-            linkTo={"/warning"}
+            showDetails={() =>
+              handleShowEditRecipeIngredients(!showEditRecipeIngredients)
+            }
             progress={""}
             description={"Lorem ipsum tempor incididunt ut labore et aliqua."}
           />
+
+          <EditRecipeIngredients
+            refreshRecipe={getRecipe}
+            recipeToEdit={recipeToEdit}
+            updateRecipe={updateRecipe}
+            showIngredients={() =>
+              handleShowEditRecipeIngredients(!showEditRecipeIngredients)
+            }
+            show={showEditRecipeIngredients}
+          />
+
           <EditRecipeListItem
             title={"Recipe Method"}
             linkTo={"/warning"}
