@@ -47,6 +47,12 @@ export default function EditRecipeSideBar(props) {
           </MenuItem>
           <MenuItem>
             <button onClick={() => props.showDetails()}>
+              Quantity:{" "}
+              {props.recipeToEdit && props.recipeToEdit.content.quantity}
+            </button>
+          </MenuItem>
+          <MenuItem>
+            <button onClick={() => props.showDetails()}>
               Authors:{" "}
               {props.recipeToEdit && props.recipeToEdit.content.authors}
             </button>

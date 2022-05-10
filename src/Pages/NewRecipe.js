@@ -2,8 +2,8 @@
 import { CordraClient } from "@cnri/cordra-client";
 import React, { useState } from "react";
 import { BsPencilSquare } from "react-icons/bs";
-import { FiArrowRight } from "react-icons/fi";
 import { useHistory } from "react-router-dom";
+import ArrowButton from "../Components/ArrowButton";
 import useUpdateTitle from "../Hooks/UpdateTitle";
 
 export default function NewRecipe() {
@@ -26,11 +26,13 @@ export default function NewRecipe() {
         content: { recipeName: recipeName },
       };
       let newRecipeID;
-      client.create(cordraObject).then(response => {
-          newRecipeID = response.id
+      client
+        .create(cordraObject)
+        .then((response) => {
+          newRecipeID = response.id;
           history.push(`/edit-recipe/${newRecipeID}`, { from: "/warning" });
-      }).catch(error => console.log(error))
-      
+        })
+        .catch((error) => console.log(error));
     }
   };
 
@@ -64,10 +66,11 @@ export default function NewRecipe() {
           onChange={(event) => handleRecipeName(event.target.value)}
           type="text"
         />
-        <button onClick={() => createNewRecipe()} className="blue-button">
-          Create
-          <FiArrowRight />
-        </button>
+        <ArrowButton
+          displayText="Create"
+          function={() => createNewRecipe()}
+          color="blue"
+        />
       </div>
     </div>
   );

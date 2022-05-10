@@ -1,6 +1,6 @@
 // Import dependencies
-import React, { useState } from "react";
-import { BsListUl } from "react-icons/bs";
+import React, { useState, useContext } from "react";
+import { FiSliders } from "react-icons/fi";
 import { CordraClient } from "@cnri/cordra-client";
 
 // Import custom components
@@ -8,14 +8,28 @@ import { CordraClient } from "@cnri/cordra-client";
 // Import custom hooks
 import useUpdateTitle from "../Hooks/UpdateTitle";
 import { getUserToken, searchDatabase } from "../Hooks/clientUtils";
-import { FiSliders } from "react-icons/fi";
+import userContext from "../Hooks/UserContext";
 
-function Search() {
+function Search(props) {
   const [searchResults, updateSearchResults] = useState([]);
-  const [searchQuery, updateSearchQuery] = useState();
+
+  const userStatus = useContext(userContext);
 
   const search = (event) => {
+    const client = new CordraClient("https://localhost:8443");
+
     const userToken = getUserToken();
+    console.log(
+      (async () => {
+        return await client
+          .getAuthenticationStatus()
+          .then((response) => console.log(response))
+          .catch(error => console.error(error))
+      })()
+    );
+    client.authenticate(userToken).catch(async (error) => {
+      console.error(error);
+    });
     searchDatabase(userToken, event.target.value, updateSearchResults);
   };
 
@@ -39,8 +53,8 @@ function Search() {
           Filter
         </button>
       </div>
-      <div className="rounded-lg max-h-96 overflow-scroll p-5 bg-white min-h-[384px]">
-        <table className="bg-white rounded border-separate ">
+      <div className="rounded-lg max-h-[80%] h-[80%] overflow-scroll p-5 bg-white min-h-[384px]">
+        <table className="bg-white rounded border-separate w-full">
           <thead>
             <tr className="">
               <th>ID</th>
@@ -49,6 +63,8 @@ function Search() {
               <th>Date Created</th>
               <th>Quantity</th>
               <th>Authors</th>
+              <th>Time</th>
+              <th>Description</th>
               <th>Actions</th>
             </tr>
           </thead>

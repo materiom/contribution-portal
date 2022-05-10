@@ -1,18 +1,26 @@
 // Import dependencies
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { FiArrowUpRight } from "react-icons/fi";
-import { dummyData } from "../Data";
 // Import custom hooks
 import useUpdateTitle from "../Hooks/UpdateTitle";
-import { getDatabaseItemById, getUserToken } from "../Hooks/clientUtils";
+import {
+  getDatabaseItemById,
+  getUserToken,
+  updateDatabaseItemById,
+} from "../Hooks/clientUtils";
+import recipeContext from "../Hooks/RecipeContext";
+
 // Custom components
 import EditRecipeListItem from "../Components/EditRecipeListItem";
 import EditRecipeSideBar from "../Components/EditRecipeSideBar";
 import EditRecipeDetails from "../Components/EditRecipeDetails";
 import { useHistory } from "react-router-dom";
+import ArrowButton from "../Components/ArrowButton";
 
 export default function EditRecipe() {
+  const useRecipeContext = useContext(recipeContext);
+  console.log(useRecipeContext)
   // Custom hook to update page title on initial load
   useUpdateTitle("Edit Recipe");
   // Get URL parameters
@@ -24,12 +32,13 @@ export default function EditRecipe() {
   // Get recipe from DB and update state
   const getRecipe = async () => {
     await getDatabaseItemById(userToken, recipeId).then((recipe) => {
-      updateRecipe(recipe);
+        console.log(recipe)
+      useRecipeContext.handleUpdate(recipe);
     });
   };
   // Initialize state
   const [showEditRecipeDetails, handleShowEditRecipeDetails] = useState(true);
-  const [recipeToEdit, updateRecipe] = useState(false);
+  const [recipeToEdit, updateRecipe] = useState(recipeContext.recipe);
   const [termsAndConditions, updateTerms] = useState(false);
   const [complete, updateComplete] = useState(false);
   const history = useHistory();
@@ -39,7 +48,7 @@ export default function EditRecipe() {
   };
 
   // useEffect hook called once on render to get the recipe
-  useEffect(() => {
+  useEffect((getRecipe) => {
     getRecipe();
   }, []);
 
@@ -50,14 +59,41 @@ export default function EditRecipe() {
       updateComplete(false);
     }
   }, [termsAndConditions]);
-  // Dummy data
-  const recipe = dummyData[0];
+
+  const updateRecipeContent = (event) => {
+    event.preventDefault();
+    console.log(event);
+    updateRecipe((prevState) => ({
+      ...prevState,
+      content: {
+        ...prevState.content,
+        [event.target.name]: event.target.value,
+      },
+    }));
+  };
+
+  // Function to save data
+  const saveRecipeDetails = async () => {
+    const userToken = getUserToken();
+    const id = recipeToEdit.id;
+    const content = {
+      recipeName: recipeToEdit.content.recipeName,
+      difficulty: recipeToEdit.content.difficulty,
+      quantity: recipeToEdit.content.quantity,
+      authors: recipeToEdit.content.authors,
+      description: recipeToEdit.content.description,
+      time: recipeToEdit.content.time,
+    };
+    await updateDatabaseItemById(userToken, id, content)
+      .then((res) => console.log(res))
+      .catch((error) => console.log(error));
+  };
+
   return (
     <div className="flex ">
       <EditRecipeSideBar
         showDetails={showDetails}
         recipeToEdit={recipeToEdit}
-        recipe={recipe}
       />
       <div className="flex flex-col w-[50%] min-w[500px] m-auto">
         <div className="flex flex-col mb-5">
@@ -72,9 +108,11 @@ export default function EditRecipe() {
               </p>
             </Link>
             <p className="text-xs text-gray-400">
-              Created: {recipe.dateCreated}
+              Created: {recipeToEdit && recipeToEdit.content.dateCreated}
             </p>
-            <p className="text-xs text-gray-400">REF: MTRM0001 </p>
+            <p className="text-xs text-gray-400">
+              {recipeToEdit && recipeToEdit.id}{" "}
+            </p>
           </div>
         </div>
         <ul className="p-0 my-5">
@@ -88,8 +126,10 @@ export default function EditRecipe() {
           <EditRecipeDetails
             refreshRecipe={getRecipe}
             recipeToEdit={recipeToEdit}
-            updateRecipe={updateRecipe}
+            updateRecipeContent={updateRecipeContent}
+            saveRecipeDetails={saveRecipeDetails}
             showDetails={showDetails}
+            updateRecipe={updateRecipe}
             show={showEditRecipeDetails}
           />
 
@@ -127,14 +167,12 @@ export default function EditRecipe() {
             </label>
           </div>
 
-          <button
-            onClick={() => history.push("/confirmation", { from: "/" })}
-            disabled={!termsAndConditions}
-            className="blue-button my-5 "
-          >
-            Confirm {"&"} Submit
-            <FiArrowUpRight />
-          </button>
+      <ArrowButton
+        displayText={`Confirm ${"&"} Submit`}
+        isDisabled={!termsAndConditions}
+        function={() => history.push("/confirmation", { from: "/" })}
+        color="blue"
+      />
         </div>
       </div>
     </div>

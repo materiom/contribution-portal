@@ -1,11 +1,11 @@
 // Import dependencies
 import React, { useState } from "react";
-import { FiArrowRight } from "react-icons/fi";
 import { FaRegHandPaper } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 // Import custom hooks
 import useUpdateTitle from "../Hooks/UpdateTitle";
+import ArrowButton from "../Components/ArrowButton";
 
 export default function Warning() {
   // Custom hook to update page title on initial load
@@ -73,14 +73,13 @@ export default function Warning() {
           <Link to="/">
             <button className="red-button">Back</button>
           </Link>
-          <button
-            onClick={() => history.push("/new-recipe", { from: "/warning" })}
-            disabled={cb1 === false || cb2 === false || cb3 === false}
-            className="blue-button"
-          >
-            Continue
-            <FiArrowRight />
-          </button>
+
+          <ArrowButton
+            displayText="Continue"
+            isDisabled={cb1 === false || cb2 === false || cb3 === false}
+            function={() => history.push("/new-recipe", { from: "/warning" })}
+            color="blue"
+          />
         </div>
       </div>
     </div>

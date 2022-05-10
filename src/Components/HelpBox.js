@@ -1,8 +1,8 @@
 // Import dependencies
 import React from "react";
 import { IoMdPaperPlane } from "react-icons/io";
-import { FiArrowUpRight, FiTwitter } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { FiTwitter } from "react-icons/fi";
+import ArrowButton from "./ArrowButton";
 
 export default function HelpBox() {
   return (
@@ -18,6 +18,7 @@ export default function HelpBox() {
           className="ml-3 text-sm text-cyan-600"
           href="mailto:hello@materiom.org"
           target="_blank"
+          rel="noreferrer"
         >
           Contact Support
         </a>
@@ -28,6 +29,7 @@ export default function HelpBox() {
           className="ml-3 text-sm text-cyan-600"
           href="https://twitter.com/materiom_"
           target="_blank"
+          rel="noreferrer"
         >
           Tweet Us
         </a>
@@ -36,12 +38,13 @@ export default function HelpBox() {
       <p className="text-xs py-3">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit
       </p>
-      <Link t to="https://materiom.org/contribute-guide">
-        <button className="flex text-white text-xs p-2 bg-teal-600 rounded w-32 justify-around items-center">
-          Read Guide
-          <FiArrowUpRight />
-        </button>
-      </Link>
+      <ArrowButton
+        displayText="Read Guide"
+        function={() =>
+          window.open("https://materiom.org/contribute-guide", "_blank'")
+        }
+        color="blue"
+      />
     </div>
   );
 }

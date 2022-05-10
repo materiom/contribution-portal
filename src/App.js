@@ -19,6 +19,7 @@ import PrivateRoute from "./Components/PrivateRoute";
 
 // Import custom hooks
 import userContext from "../src/Hooks/UserContext";
+import recipeContext from "../src/Hooks/RecipeContext";
 import Search from "./Pages/Search";
 
 // Export App class component to be used in ./index.js
@@ -30,6 +31,7 @@ export default class App extends React.Component {
         loggedIn: false,
         token: "",
       },
+      recipe: {}
     };
   }
 
@@ -38,16 +40,31 @@ export default class App extends React.Component {
     sessionStorage.setItem("user", JSON.stringify(userObject));
   };
 
+  handleSignOut = () => {
+    this.setState({ user: { loggedIn: false, userObject: {} } });
+    sessionStorage.removeItem("user");
+  };
+
+  handleRecipeUpdate = (recipe) => {
+    this.setState({ recipe: recipe });
+  };
+
   render() {
     // Create user object to be passed to the context provider
-    // on line 42 for PrivateRoute.js & Login.js
+    // for PrivateRoute.js & Login.js
     const userObject = {
       user: this.state.user,
       handleLogin: this.handleLogin,
+      handleSignOut: this.handleSignOut
+    };
+    const recipeObject = {
+      recipe: this.state.recipe,
+      handleUpdate: this.handleRecipeUpdate,
     };
 
     return (
       <userContext.Provider value={userObject}>
+      <recipeContext.Provider value={recipeObject}>
         <BrowserRouter>
           <div className="flex h-screen bg-neutral-300 min-w-full overflow-hidden">
             {/* Sliding side menu */}
@@ -88,6 +105,7 @@ export default class App extends React.Component {
             </Switch>
           </div>
         </BrowserRouter>
+      </recipeContext.Provider>
       </userContext.Provider>
     );
   }

@@ -1,67 +1,48 @@
 // Import dependencies
-import React, { useState, useEffect } from "react";
-import { BsFillPlusSquareFill, BsPlus } from "react-icons/bs";
-import { FiArrowUpRight } from "react-icons/fi";
-import { RiListUnordered, RiTBoxLine } from "react-icons/ri";
-import { getUserToken, updateDatabaseItemById } from "../Hooks/clientUtils";
+import React, { useState } from "react";
+import { BsFillPlusSquareFill } from "react-icons/bs";
+import { RiListUnordered } from "react-icons/ri";
 import AddBlock from "./AddBlock";
+import ArrowButton from "./ArrowButton";
 import AuthorTag from "./AuthorTag";
 import EditRecipeDetailsInput from "./EditRecipeDetailsInput";
 
 function EditRecipeDetails(props) {
   // Initialize state
+  const recipe =
+    props.recipeToEdit?.content === undefined ? {} : props.recipeToEdit.content;
+
   const [additionalSections, updateAdditionalSections] = useState({
     description: false,
     time: false,
   });
+
   const [authorTagsArray, updateAuthorTagsArray] = useState(
     props.recipeToEdit ? props.recipeToEdit.content.authors : []
   );
-  const [description, updateDescription] = useState(
-    props.recipeToEdit ? props.recipeToEdit.content.description : ""
-  );
-  const [newAuthor, updateNewAuthor] = useState("");
-  const updateRecipeContent = (event) => {
-    props.updateRecipe((prevState) => ({
-      ...prevState,
-      content: {
-        ...prevState.content,
-        [event.target.name]: event.target.value,
-      },
-    }));
-    console.log(props);
-  };
 
-  // Function to save data
-  const saveRecipeDetails = async () => {
-    const userToken = getUserToken();
-    const id = props.recipeToEdit.id;
-    const content = {
-      recipeName: props.recipeToEdit.content.recipeName,
-      difficulty: props.recipeToEdit.content.difficulty,
-      quantity: props.recipeToEdit.content.quantity,
-      authors: authorTagsArray,
-      description: description,
-    };
-    await updateDatabaseItemById(userToken, id, content)
-      .then(props.refreshRecipe())
-      .catch((error) => console.log(error));
-  };
+  const [newAuthor, updateNewAuthor] = useState("");
+
+//   const updateAuthor = () => {
+//     props.updateRecipeContent([...authorTagsArray]);
+//   };
 
   const removeAuthor = (index) => {
     authorTagsArray.splice(index, 1);
-    updateAuthorTagsArray([...authorTagsArray]);
+    props.updateRecipeContent([...authorTagsArray]);
   };
 
-  let renderedTagsArray = authorTagsArray.map((item, index) => {
-    return (
-      <AuthorTag
-        name={item}
-        key={index}
-        removeAuthor={() => removeAuthor(index)}
-      />
-    );
-  });
+  let renderedTagsArray = props.recipeToEdit?.content?.authors?.map(
+    (item, index) => {
+      return (
+        <AuthorTag
+          name={item}
+          key={index}
+          removeAuthor={() => removeAuthor(index)}
+        />
+      );
+    }
+  );
 
   return (
     <div
@@ -99,24 +80,22 @@ function EditRecipeDetails(props) {
               </svg>
             </button>
             <h3 className="text-xl font-semibold lg:text-2xl text-black0">
-              {props.recipeToEdit.content !== undefined &&
-                props.recipeToEdit.content.recipeName}
+              {recipe !== undefined && recipe.recipeName}
             </h3>
-            <button
-              onClick={() => saveRecipeDetails()}
-              className="blue-button ml-auto"
-            >
-              Save
-              <FiArrowUpRight />
-            </button>
+            <ArrowButton
+              displayText="Save"
+              function={() => props.saveRecipeDetails()}
+              color="blue"
+            />
           </div>
           <div className="flex flex-col items-center">
             {/* Edit difficulty */}
             <EditRecipeDetailsInput
               recipeToEdit={props.recipeToEdit}
-              updateRecipe={updateRecipeContent}
+              updateRecipe={props.updateRecipeContent}
               title="difficulty"
               type="input"
+              value={props.recipeToEdit?.difficulty}
               required={true}
               number={true}
               max={5}
@@ -124,9 +103,10 @@ function EditRecipeDetails(props) {
             {/* Edit quantity */}
             <EditRecipeDetailsInput
               recipeToEdit={props.recipeToEdit}
-              updateRecipe={updateRecipeContent}
+              updateRecipe={props.updateRecipeContent}
               title="quantity"
               type="input"
+              value={props?.recipeToEdit?.quantity}
               required={true}
               number={false}
               max={""}
@@ -146,6 +126,7 @@ function EditRecipeDetails(props) {
               <div className="flex flex-wrap">{renderedTagsArray}</div>
               <input
                 value={newAuthor}
+                name="authors"
                 onChange={(event) => updateNewAuthor(event.target.value)}
                 className="my-3 border-1 rounded"
                 label="recipeName"
@@ -153,7 +134,13 @@ function EditRecipeDetails(props) {
               />
               <BsFillPlusSquareFill
                 onClick={() => {
-                  updateAuthorTagsArray([...authorTagsArray, newAuthor]);
+                  props.updateRecipe((prevState) => ({
+                    ...prevState,
+                    content: {
+                      ...prevState.content,
+                      authors: [...prevState.content?.authors, newAuthor],
+                    },
+                  }));
                   updateNewAuthor("");
                 }}
               />
@@ -162,9 +149,10 @@ function EditRecipeDetails(props) {
             {additionalSections.description && (
               <EditRecipeDetailsInput
                 recipeToEdit={props.recipeToEdit}
-                updateRecipe={updateRecipeContent}
+                updateRecipe={props.updateRecipeContent}
                 title="description"
                 type="textarea"
+                value={props.recipeToEdit.description}
                 required={false}
                 number={false}
                 max={""}
@@ -175,9 +163,10 @@ function EditRecipeDetails(props) {
             {additionalSections.time && (
               <EditRecipeDetailsInput
                 recipeToEdit={props.recipeToEdit}
-                updateRecipe={updateRecipeContent}
+                updateRecipe={props.updateRecipeContent}
                 title="time"
                 type="input"
+                value={props.recipeToEdit.time}
                 required={false}
                 number={false}
                 max={""}

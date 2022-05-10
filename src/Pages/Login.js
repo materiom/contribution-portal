@@ -14,10 +14,11 @@ export default function Login() {
 
   // Create new Cordra client
   const client = new CordraClient("https://localhost:8443");
+  
   const userStatus = useContext(userContext);
 
   // Check for user login in local storage on initial render
-  useEffect(() => {
+  useEffect((history, userStatus) => {
     const loggedInUser = sessionStorage.getItem("user");
     // If found, populate user object and redirect to Dashboard
     if (loggedInUser) {

@@ -1,8 +1,12 @@
 import { CordraClient } from "@cnri/cordra-client";
 import { useHistory } from "react-router-dom";
+import { browserHistory } from "react-router";
 import { RiFileCopyLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import AuthorTag from "../Components/AuthorTag";
+import SearchResultsTableRow from "../Components/SearchResultsTableRow";
+import { Redirect } from "react-router-dom";
+import useChangeRoute from "./ChangeRoute";
 // Function to check whether the user is logged in
 export const isLoggedIn = () => {
   const user = sessionStorage.getItem("user");
@@ -17,6 +21,7 @@ export const getUserToken = () => {
       username: user.username,
       token: user.access_token,
     };
+    const client = new CordraClient("https://localhost:8443", cordraUserObject);
     return cordraUserObject;
   } else {
     return null;
@@ -58,38 +63,31 @@ export const updateDatabaseItemById = async (userToken, id, content) => {
 // Function to search database
 
 export const searchDatabase = (userToken, searchQuery, updateResults) => {
+  // const history = useHistory();
   const client = new CordraClient("https://localhost:8443", userToken);
+
+  (async () =>
+    await client
+      .getAuthenticationStatus()
+      .then((response) => console.log(response, 7))
+      .catch(async (error) => {
+        console.error("Invalid Token, please login", error);
+        await client.signOut();
+      }))();
 
   const params = { filterQueries: [searchQuery] };
   client
     .search("*:*", params)
     .then((response) =>
       response.results.map((item) => {
-        console.log(response.results);
-        return (
-          <tr key={item.id} className="text-center">
-            <td>{item.id}</td>
-            <td>{item.content.recipeName}</td>
-            <td>{item.content.difficulty}</td>
-            <td>
-              {(() => {
-                const date = new Date(item.metadata.createdOn);
-                return date.toLocaleString();
-              })()}
-            </td>
-            <td>{item.content.quantity}</td>
-            <td>
-              <AuthorTag name={item.content?.authors} />
-            </td>
-            <td>
-              <Link to={`/copy-recipe/${item.id}`} className="">
-                <div className="h-8 w-8 ml-3 text-white bg-MatOrange rounded flex justify-center items-center">
-                  <RiFileCopyLine />
-                </div>
-              </Link>
-            </td>
-          </tr>
-        );
+          console.log(item)
+        return <SearchResultsTableRow data={item} />;
       })
-    ).then(results => updateResults(results))
+    )
+    .then((results) => updateResults(results))
+    .catch((error) => {
+      if (error === "Invalid token") {
+        alert(error);
+      }
+    });
 };
